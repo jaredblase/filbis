@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-export default function Chat () {
+export default function Chat() {
     const auth = firebase.auth();
     const firestore = firebase.firestore();
 
