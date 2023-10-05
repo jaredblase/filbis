@@ -25,11 +25,17 @@ export const theme = {
             sans: 'Google Sans',
             display: 'Google Sans Display',
             text: 'Google Sans Text',
-        }
+        }, 
+        Shrikhand: 'Shrikhand',
+        Ultra: 'Ultra',
     },
     colors: {
-        white: '#E7E7E7',
+        white: '#FFFFFF',
+        concrete: '#EDEDED',
         blue: '#4285F4',
-        background: '#1A1A1A',
+        background: '#448C4A',
+        orange: '#ED7042',
+        beige: '#F4E8D8',
+        tint: '#222222',
     }
 }
