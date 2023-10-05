@@ -1,9 +1,11 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { device } from '../utils/device-sizes';
 import { theme } from '../utils/theme';
-import GoogleSansDisplay from '../fonts/GoogleSansDisplay.ttf';
-import GoogleSansText from '../fonts/GoogleSansText.ttf';
-import GoogleSans from '../fonts/GoogleSans.ttf';
+import GoogleSansDisplay from '../fonts/Google Sans/GoogleSansDisplay.ttf';
+import GoogleSansText from '../fonts/Google Sans/GoogleSansText.ttf';
+import GoogleSans from '../fonts/Google Sans/GoogleSans.ttf';
+import Shrikhand from '../fonts/Shrikhand/Shrikhand.ttf';
+import Ultra from '../fonts/Ultra/Ultra.ttf';
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -36,6 +38,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
+        background-color: ${theme.colors.background};
         font-family: ${theme.fontStyles.Google.text};
         font-size: ${theme.fontSizes.mobile.body};
         color: ${theme.colors.white};
@@ -78,6 +81,20 @@ export const GlobalStyle = createGlobalStyle`
     @font-face {
         font-family: 'Google Sans';
         src: url(${GoogleSans}) format('truetype');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Shrikhand';
+        src: url(${Shrikhand}) format('truetype');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Ultra';
+        src: url(${Ultra}) format('truetype');
         font-weight: 300;
         font-style: normal;
     }
