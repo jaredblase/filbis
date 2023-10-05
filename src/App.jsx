@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import SignIn from './pages/SignIn';
 import { GlobalStyle } from './styles/global.styled';
+import Landing from './pages/Landing';
 
 const AppContainer = styled.div`
   position: relative;
@@ -13,7 +13,7 @@ export default function App() {
     <>
       <AppContainer>
         <GlobalStyle />
-        <SignIn />
+        <Landing />
       </AppContainer>
     </>
   )
