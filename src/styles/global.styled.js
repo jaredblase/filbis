@@ -1,11 +1,11 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { device } from '../utils/device-sizes';
 import { theme } from '../utils/theme';
 import GoogleSansDisplay from '../fonts/Google Sans/GoogleSansDisplay.ttf';
 import GoogleSansText from '../fonts/Google Sans/GoogleSansText.ttf';
 import GoogleSans from '../fonts/Google Sans/GoogleSans.ttf';
-import Shrikhand from '../fonts/Shrikhand/Shrikhand.ttf';
-import Ultra from '../fonts/Ultra/Ultra.ttf';
+import Shrikhand from '../fonts/Shrikhand/Shrikhand-Regular.ttf';
+import Ultra from '../fonts/Ultra/Ultra-Regular.ttf';
 
 export const GlobalStyle = createGlobalStyle`
     * {
