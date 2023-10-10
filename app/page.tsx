@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import filbis from '@/public/assets/filbis.svg'
+import FilbisAvatar from './components/Filbis'
 
 export default function HomePage() {
 	return (
@@ -8,7 +7,7 @@ export default function HomePage() {
 				<p className="text-center font-shrikhand text-3xl">Welcome back!</p>
 			</div>
 			<h1 className="font-shrikhand text-center text-shadow text-shadow-y-4 shadow-orange-400">So, how are you?</h1>
-			<Image src={filbis} alt="" className="m-auto" />
+			<FilbisAvatar className='m-auto' />
 		</div>
 	)
 }

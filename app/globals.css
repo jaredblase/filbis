@@ -23,4 +23,30 @@
 	.btn {
 		@apply font-primary text-white bg-blue-500 rounded-md px-3 py-5;
 	}
+
+	#face, #arms {
+		animation: bounceBody 1s infinite;
+	}
+
+	#eyebrows {
+		animation: bounceEyebrows 1s infinite;
+	}
+
+	@keyframes bounceBody {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(4px);
+		}
+	}
+
+	@keyframes bounceEyebrows {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(10px);
+		}
+	}
 }
