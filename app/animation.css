@@ -1,0 +1,33 @@
+body {
+    background-color: #448C4A;
+}
+
+#filbis {
+	@apply w-full h-screen flex justify-center items-center;
+}
+
+#face, #arms {
+	animation: bounceBody 1s infinite;
+}
+
+#eyebrows {
+	animation: bounceEyebrows 1s infinite;
+}
+
+@keyframes bounceBody {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(4px);
+	}
+}
+
+@keyframes bounceEyebrows {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(10px);
+	}
+}

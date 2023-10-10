@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	h1, h2, h3, h4, h5 {
+		@apply font-primary font-medium text-white;
+	}
+
+	h1 {
+		@apply text-6xl tablet:text-7xl desktop:text-8xl ;
+	}
+
+	h2 {
+		@apply text-5xl tablet:text-6xl desktop:text-7xl;
+	}
+
+	.btn {
+		@apply font-primary text-white bg-blue-500 rounded-md px-3 py-5;
+	}
+}
