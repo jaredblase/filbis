@@ -99,3 +99,9 @@ export const GlobalStyle = createGlobalStyle`
         font-style: normal;
     }
 `;
+
+export const FlexCenteredDiv = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
