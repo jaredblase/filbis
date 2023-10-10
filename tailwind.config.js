@@ -16,7 +16,7 @@ module.exports = {
 			mobileM: '375px',
 			mobileL: '425px',
 			tablet: '768px',
-			tableL: '1024px',
+			tabletL: '1024px',
 			laptop: '1200px',
 			laptopL: '1440px',
 			desktop: '1440px',
@@ -99,6 +99,7 @@ module.exports = {
 		},
 	},
 	plugins: [
+		require('@tailwindcss/forms'),
 		plugin(function ({ addUtilities, theme }) {
 			addUtilities({
 				'.text-shadow': {
