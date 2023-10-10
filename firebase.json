@@ -1,17 +1,10 @@
 {
 	"hosting": {
-		"target": "filbis",
-		"public": "dist",
+		"source": ".",
 		"ignore": [
 			"firebase.json",
 			"**/.*",
 			"**/node_modules/**"
-		],
-		"rewrites": [
-			{
-				"source": "**",
-				"destination": "/index.html"
-			}
 		]
 	}
 }

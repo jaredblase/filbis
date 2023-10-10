@@ -1,15 +1,15 @@
 {
-    "projects": {
-        "default": "filbis"
-    },
-    "targets": {
-        "filbis": {
-            "hosting": {
-                "filbis": [
-                    "filbis"
-                ]
-            }
-        }
-    },
-    "etags": {}
+  "projects": {
+    "default": "filbis"
+  },
+  "targets": {
+    "filbis": {
+      "hosting": {
+        "filbis": [
+          "filbis"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
