@@ -1,7 +1,7 @@
 import './globals.css'
-import { googleSans } from '@fonts/Google Sans'
-import { shrikhand } from '@fonts/Shrikhand'
-import { ultra } from '@fonts/Ultra'
+import { googleSans } from '@/fonts/Google Sans'
+import { shrikhand } from '@/fonts/Shrikhand'
+import { ultra } from '@/fonts/Ultra'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -33,11 +33,10 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en" className={`${googleSans.variable} ${ultra.variable} ${shrikhand.variable}`}>
 			<head>
-				<link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<script src="https://kit.fontawesome.com/df3d7b7b50.js" crossOrigin="anonymous"></script>
 			</head>
-			<body>
+			<body className="bg-green-400">
 				<main>{children}</main>
 			</body>
 		</html>

@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -96,6 +98,23 @@ module.exports = {
 			}
 		},
 	},
-	plugins: [],
+	plugins: [
+		plugin(function ({ addUtilities, theme }) {
+			addUtilities({
+				'.text-shadow': {
+					'text-shadow': 'var(--tw-text-shadow-x) var(--tw-text-shadow-y) var(--tw-shadow-color)'
+				},
+			})
+		}),
+		plugin(function ({ matchUtilities, theme }) {
+			matchUtilities(
+				{
+					'text-shadow-x': value => ({ '--tw-text-shadow-x': value, }),
+					'text-shadow-y': value => ({ '--tw-text-shadow-y': value, }),
+				},
+				{ values: theme('spacing') }
+			)
+		}),
+	],
 }
 

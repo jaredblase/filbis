@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+	html {
+		--tw-text-shadow-x: 0;
+		--tw-text-shadow-y: 0;
+	}
+
 	h1, h2, h3, h4, h5 {
-		@apply font-primary font-medium text-white;
+		@apply font-primary font-medium;
 	}
 
 	h1 {
