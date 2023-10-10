@@ -1,4 +1,4 @@
-import FilbisAvatar from './components/Filbis'
+import { FilbisAvatar } from '@/components/Filbis'
 
 export default function HomePage() {
 	return (

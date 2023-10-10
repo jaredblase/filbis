@@ -18,10 +18,7 @@ module.exports = {
 			tablet: '768px',
 			tabletL: '1024px',
 			laptop: '1200px',
-			laptopL: '1440px',
 			desktop: '1440px',
-			desktopM: '1920px',
-			desktopL: '2560px',
 		},
 		extend: {
 			fontFamily: {
@@ -99,8 +96,10 @@ module.exports = {
 		},
 	},
 	plugins: [
-		require('@tailwindcss/forms'),
-		plugin(function ({ addUtilities, theme }) {
+		require('@tailwindcss/forms')({
+			strategy: 'base',
+		}),
+		plugin(function ({ addUtilities }) {
 			addUtilities({
 				'.text-shadow': {
 					'text-shadow': 'var(--tw-text-shadow-x) var(--tw-text-shadow-y) var(--tw-shadow-color)'
