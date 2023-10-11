@@ -18,7 +18,6 @@ module.exports = {
 			tablet: '768px',
 			tabletL: '1024px',
 			laptop: '1200px',
-			desktop: '1440px',
 		},
 		extend: {
 			fontFamily: {
@@ -27,7 +26,7 @@ module.exports = {
 				ultra: 'var(--font-ultra)',
 			},
 			colors: {
-				'concrete': {
+				'tertiary': {
 					'50': '#f8f8f8',
 					'100': '#ededed',
 					'200': '#dcdcdc',
@@ -53,7 +52,7 @@ module.exports = {
 					'900': '#1f3b89',
 					'950': '#182553',
 				},
-				'green': {
+				'bg': {
 					'50': '#f4f9f4',
 					'100': '#e5f3e6',
 					'200': '#cbe7cd',
@@ -66,7 +65,7 @@ module.exports = {
 					'900': '#254229',
 					'950': '#102313',
 				},
-				'orange': {
+				'primary': {
 					'50': '#fef4ee',
 					'100': '#fce6d8',
 					'200': '#f8cab0',
@@ -79,7 +78,7 @@ module.exports = {
 					'900': '#752019',
 					'950': '#3f0d0b',
 				},
-				'beige': {
+				'secondary': {
 					'50': '#fbf7f1',
 					'100': '#f4e8d8',
 					'200': '#ecd6bc',

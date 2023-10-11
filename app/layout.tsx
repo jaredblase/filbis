@@ -41,7 +41,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<script src="https://kit.fontawesome.com/df3d7b7b50.js" crossOrigin="anonymous"></script>
 			</head>
-			<body className="bg-green-400">
+			<body className="bg-bg-400 min-h-screen grid items-center">
 				<main>{children}</main>
 			</body>
 		</html>

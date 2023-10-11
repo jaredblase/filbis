@@ -14,19 +14,11 @@
 	}
 
 	h1 {
-		@apply text-6xl tablet:text-7xl desktop:text-8xl ;
+		@apply text-6xl tablet:text-7xl;
 	}
 
 	h2 {
-		@apply text-5xl tablet:text-6xl desktop:text-7xl;
-	}
-
-	.btn {
-		@apply font-shrikhand rounded-full p-3 transition-colors;
-
-		&.btn-primary {
-			@apply text-beige-100 bg-orange-400 hover:bg-orange-500 active:bg-orange-600;
-		}
+		@apply text-5xl tablet:text-6xl;
 	}
 
 	input {
@@ -34,11 +26,11 @@
 	}
 
 	#face, #arms {
-		animation: bounceBody 1s infinite;
+		@apply motion-safe:animate-[bounceBody_1s_infinite];
 	}
 
 	#eyebrows {
-		animation: bounceEyebrows 1s infinite;
+		@apply motion-safe:animate-[bounceEyebrows_1s_infinite];
 	}
 
 	@keyframes bounceBody {
@@ -57,5 +49,19 @@
 		50% {
 			transform: translateY(10px);
 		}
+	}
+}
+
+@layer components {
+	.btn {
+		@apply font-shrikhand rounded-full p-3 transition-colors;
+
+		&.btn-primary {
+			@apply text-secondary-100 bg-primary-400 hover:bg-primary-500 active:bg-primary-600;
+		}
+	}
+
+	.icon {
+		@apply fill-white hover:fill-slate-200 active:fill-slate-300 transition-colors
 	}
 }
