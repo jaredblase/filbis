@@ -12,12 +12,11 @@ module.exports = {
 			padding: '1em',
 		},
 		screens: {
-			mobileS: '0px',
-			mobileM: '375px',
-			mobileL: '425px',
-			tablet: '768px',
-			tabletL: '1024px',
-			laptop: '1200px',
+			xs: '360px',
+			sm: '640px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px',
 		},
 		extend: {
 			fontFamily: {
