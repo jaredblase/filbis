@@ -1,7 +1,8 @@
 'use client'
+
 import { useHeaderMenu } from '@/lib/useHeaderMenu'
 import { createPortal } from 'react-dom'
-
+import Link from 'next/link'
 
 export function HomeMenu() {
 	const headerMenu = useHeaderMenu()
@@ -9,7 +10,7 @@ export function HomeMenu() {
 	if (!headerMenu) return <></>
 
 	return createPortal(
-		<button className="btn btn-primary text-xl px-8">Login</button>,
+		<Link href="/chat" className="btn btn-primary text-xl px-8">Login</Link>,
 		headerMenu
 	)
 }

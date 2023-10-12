@@ -2,7 +2,7 @@ import React, { SVGAttributes } from 'react';
 
 export function FilbisAvatar(props: SVGAttributes<HTMLOrSVGElement>) {
 	return (
-		<svg viewBox="0 0 541 484" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+		<svg viewBox="0 0 541 484" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} name="filbis">
 			<g id="FILBIS">
 				<g id="arms">
 					<g id="right_arm">

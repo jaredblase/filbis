@@ -1,3 +1,4 @@
+import { Logos } from '@/components/logos'
 import './globals.css'
 import { googleSans } from '@/fonts/Google Sans'
 import { shrikhand } from '@/fonts/Shrikhand'
@@ -41,10 +42,13 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<script src="https://kit.fontawesome.com/df3d7b7b50.js" crossOrigin="anonymous"></script>
 			</head>
-			<body className="bg-bg-400 min-h-screen grid items-center">
-				<main>{children}</main>
+			<body className="bg-[#245c94]">
+				<header className="container py-4 flex flex-wrap justify-between items-center">
+					<Logos />
+					<menu id="header-menu" />
+				</header>
+				<main className="min-h-[calc(100vh-144px)] grid items-center">{children}</main>
 			</body>
 		</html>
-
 	)
 }

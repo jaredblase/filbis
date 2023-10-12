@@ -9,20 +9,28 @@
 		@apply font-primary;
 	}
 
-	h1, h2, h3, h4, h5 {
-		@apply font-primary font-medium;
+	.h1, .h2, .h3, .h4, .h5 {
+		@apply font-shrikhand font-medium text-secondary-100;
 	}
 
-	h1 {
-		@apply text-6xl tablet:text-7xl;
+	.h1 {
+		@apply text-3xl sm:text-5xl lg:text-7xl;
+
+		&.with-shadow {
+			@apply text-shadow text-shadow-y-1 sm:text-shadow-y-1.5 lg:text-shadow-y-2 shadow-primary-400;
+		}
 	}
 
-	h2 {
-		@apply text-5xl tablet:text-6xl;
+	.h2 {
+		@apply text-5xl lg:text-6xl;
 	}
 
 	input {
 		@apply border-none;
+	}
+
+	svg[name="filbis"].center {
+		@apply translate-x-[8%];
 	}
 
 	#face, #arms {
@@ -63,5 +71,11 @@
 
 	.icon {
 		@apply fill-white hover:fill-slate-200 active:fill-slate-300 transition-colors
+	}
+}
+
+@layer utilities {
+	.container-block {
+		container-type: size;
 	}
 }
