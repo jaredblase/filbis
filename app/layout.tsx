@@ -7,6 +7,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Your Ultimate Health Chatbot for your Kids | Filbis',
+	metadataBase: new URL(process.env.NEXTAUTH_URL ?? 'http://localhost:3000'),
 	description:
 		'Filbis is your Ultimate Health Chatbot made for children. Developed by the students of De La Salle University and the Department of Science and Technology with ❤️.',
 	themeColor: '#448C4A',
