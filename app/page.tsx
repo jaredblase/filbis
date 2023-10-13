@@ -1,7 +1,13 @@
 import { FilbisAvatar } from '@/components/Filbis'
 import { HomeMenu } from './home-menu'
+import { auth } from './api/auth/[...nextauth]/auth'
+import { redirect } from 'next/navigation'
 
-export default function HomePage() {
+export default async function HomePage() {
+	const session = await auth()
+
+	if (session?.user) redirect('/chat')
+
 	return (
 		<>
 			<div className="absolute top-0 -z-10 h-screen w-full">

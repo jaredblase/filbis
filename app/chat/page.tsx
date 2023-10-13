@@ -1,8 +1,14 @@
 import { PaperPlaneRight } from '@phosphor-icons/react/dist/ssr/index'
 import { FilbisAvatar } from '@/components/Filbis'
 import { MenuBar } from './menu-bar'
+import { auth } from '../api/auth/[...nextauth]/auth'
+import { redirect } from 'next/navigation'
 
-export default function ChatPage() {
+export default async function ChatPage() {
+	const session = await auth()
+
+	if (!session?.user) redirect('/')
+
 	return (
 		<>
 			<div className="absolute top-0 -z-10 max-h-96 w-full">
@@ -16,7 +22,7 @@ export default function ChatPage() {
 					<path d="M523 -1L0 287V-1H523Z" fill="#306CA8" />
 				</svg>
 			</div>
-			<MenuBar />
+			<MenuBar src={session.user.image} />
 			<section>
 				<div className="container grid w-full gap-x-16 lg:grid-cols-2">
 					<div>
