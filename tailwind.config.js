@@ -9,7 +9,7 @@ module.exports = {
 	theme: {
 		container: {
 			center: true,
-			padding: '1em',
+			padding: '2rem',
 		},
 		screens: {
 			xs: '360px',
@@ -38,32 +38,6 @@ module.exports = {
 					900: '#3d3d3d',
 					950: '#292929',
 				},
-				blue: {
-					50: '#eff6ff',
-					100: '#dbeafe',
-					200: '#c0dbfd',
-					300: '#94c5fc',
-					400: '#62a5f8',
-					500: '#4285f4',
-					600: '#2763e9',
-					700: '#1f4ed6',
-					800: '#2041ad',
-					900: '#1f3b89',
-					950: '#182553',
-				},
-				bg: {
-					50: '#f4f9f4',
-					100: '#e5f3e6',
-					200: '#cbe7cd',
-					300: '#a3d2a7',
-					400: '#72b678',
-					500: '#4e9955',
-					600: '#448c4a',
-					700: '#326336',
-					800: '#2c4f2f',
-					900: '#254229',
-					950: '#102313',
-				},
 				primary: {
 					50: '#fef4ee',
 					100: '#fce6d8',
@@ -91,12 +65,25 @@ module.exports = {
 					950: '#361b14',
 				},
 			},
+			keyframes: {
+				'accordion-down': {
+					from: { height: 0 },
+					to: { height: 'var(--radix-accordion-content-height)' },
+				},
+				'accordion-up': {
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: 0 },
+				},
+			},
+			animation: {
+				'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out',
+			},
 		},
 	},
 	plugins: [
-		require('@tailwindcss/forms')({
-			strategy: 'base',
-		}),
+		require('@tailwindcss/forms')({ strategy: 'base' }),
+		require('tailwindcss-animate'),
 		plugin(function ({ addUtilities }) {
 			addUtilities({
 				'.text-shadow': {
