@@ -10,7 +10,12 @@ export function HomeMenu() {
 	if (!headerMenu) return <></>
 
 	return createPortal(
-		<button onClick={() => signIn('google', { callbackUrl: '/chat' })} className="btn btn-primary text-xl px-8">Login</button>,
+		<button
+			onClick={() => signIn('google', { callbackUrl: '/chat' })}
+			className="btn btn-primary px-8 text-xl"
+		>
+			Login
+		</button>,
 		headerMenu
 	)
 }

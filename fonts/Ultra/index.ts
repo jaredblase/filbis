@@ -4,5 +4,5 @@ export const ultra = localFont({
 	src: '400.ttf',
 	weight: 'normal',
 	display: 'swap',
-	variable: '--font-ultra'
+	variable: '--font-ultra',
 })

@@ -7,7 +7,8 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Your Ultimate Health Chatbot for your Kids | Filbis',
-	description: 'Filbis is your Ultimate Health Chatbot made for children. Developed by the students of De La Salle University and the Department of Science and Technology with ❤️.',
+	description:
+		'Filbis is your Ultimate Health Chatbot made for children. Developed by the students of De La Salle University and the Department of Science and Technology with ❤️.',
 	themeColor: '#448C4A',
 	manifest: '/manifest.webmanifest',
 	applicationName: 'Filbis',
@@ -32,22 +33,34 @@ export const metadata: Metadata = {
 			width: 1200,
 			height: 630,
 		},
-	}
+	},
 }
 
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
+export default function HomeLayout({
+	children,
+}: {
+	children: React.ReactNode
+}) {
 	return (
-		<html lang="en" className={`${googleSans.variable} ${ultra.variable} ${shrikhand.variable}`}>
+		<html
+			lang="en"
+			className={`${googleSans.variable} ${ultra.variable} ${shrikhand.variable}`}
+		>
 			<head>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<script src="https://kit.fontawesome.com/df3d7b7b50.js" crossOrigin="anonymous"></script>
+				<script
+					src="https://kit.fontawesome.com/df3d7b7b50.js"
+					crossOrigin="anonymous"
+				></script>
 			</head>
 			<body className="bg-[#245c94]">
-				<header className="container py-4 flex flex-wrap justify-between items-center">
+				<header className="container flex flex-wrap items-center justify-between py-4">
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="min-h-[calc(100vh-144px)] grid items-center">{children}</main>
+				<main className="grid min-h-[calc(100vh-144px)] items-center">
+					{children}
+				</main>
 			</body>
 		</html>
 	)

@@ -1,9 +1,13 @@
 'use client'
 
 import { useHeaderMenu } from '@/lib/useHeaderMenu'
-import { SpeakerX, ClockCounterClockwise, Info, GearSix } from '@phosphor-icons/react/dist/ssr/index'
+import {
+	SpeakerX,
+	ClockCounterClockwise,
+	Info,
+	GearSix,
+} from '@phosphor-icons/react/dist/ssr/index'
 import { createPortal } from 'react-dom'
-
 
 export function MenuBar() {
 	const headerMenu = useHeaderMenu()

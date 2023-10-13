@@ -1,12 +1,13 @@
 body {
-    background-color: #448C4A;
+	background-color: #448c4a;
 }
 
 #filbis {
-	@apply w-full h-screen flex justify-center items-center;
+	@apply flex h-screen w-full items-center justify-center;
 }
 
-#face, #arms {
+#face,
+#arms {
 	animation: bounceBody 1s infinite;
 }
 
@@ -15,7 +16,8 @@ body {
 }
 
 @keyframes bounceBody {
-	0%, 100% {
+	0%,
+	100% {
 		transform: translateY(0);
 	}
 	50% {
@@ -24,7 +26,8 @@ body {
 }
 
 @keyframes bounceEyebrows {
-	0%, 100% {
+	0%,
+	100% {
 		transform: translateY(0);
 	}
 	50% {

@@ -12,5 +12,5 @@ export const googleSans = localFont({
 		},
 	],
 	display: 'swap',
-	variable: '--font-google'
+	variable: '--font-google',
 })
