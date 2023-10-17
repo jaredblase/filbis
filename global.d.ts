@@ -4,6 +4,9 @@ declare global {
 			GOOGLE_CLIENT_ID: string
 			GOOGLE_CLIENT_SECRET: string
 			SECRET: string
+			CX_CLIENT_EMAIL: string
+			CX_CLIENT_KEY: string
+			CX_PROJECT_ID: string
 		}
 	}
 }
