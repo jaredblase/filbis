@@ -1,3 +1,5 @@
+import { LogLevel } from './lib/logger'
+
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
@@ -7,6 +9,7 @@ declare global {
 			CX_CLIENT_EMAIL: string
 			CX_CLIENT_KEY: string
 			CX_PROJECT_ID: string
+			LOG_LEVEL?: LogLevel
 		}
 	}
 }
