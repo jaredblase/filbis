@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 	// client for intent matching & getting responses
 	try {
 		const res = await detectIntent(session.user.email, body.text)
-		logger.info(JSON.stringify(res.queryResult?.fulfillmentMessages, null, 2))
+		logger.debug('--- DIALOG RESPONSE ---\n' + JSON.stringify(res.queryResult?.fulfillmentMessages, null, 2))
 
 		const data = extractPromptAndChoices(res)
 

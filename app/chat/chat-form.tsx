@@ -21,12 +21,14 @@ export function ChatForm({ choices }: ChatFormProps) {
 		e.preventDefault()
 
 		const { submitter } = e.nativeEvent as SubmitEvent
+		const form = e.target as HTMLFormElement
+	
 		let payload: string
 
 		if (submitter && 'value' in submitter && submitter.value) {
 			payload = submitter.value as string
 		} else {
-			const data = Object.fromEntries(new FormData(e.target as HTMLFormElement))
+			const data = Object.fromEntries(new FormData(form))
 			payload = data.input.toString()
 		}
 
@@ -41,7 +43,10 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 		setPrompt(res.prompt ?? '')
 		setChoices(res.choices)
-		console.log(JSON.stringify(res, null, 2))
+
+		if (!res.prompt?.includes('again')) {
+			form.reset()
+		}
 	}
 
 	return (
