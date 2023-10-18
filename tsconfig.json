@@ -29,7 +29,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"tailwind.config.js",
-		"components/Filbis.js"
+		"components/Filbis.js",
+		"lib/dialog-struct-parser.ts"
 	],
 	"exclude": ["node_modules"]
 }
