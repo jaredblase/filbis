@@ -18,7 +18,7 @@
 	}
 
 	.h1 {
-		@apply text-3xl sm:text-5xl lg:text-7xl;
+		@apply text-3xl sm:text-5xl lg:text-8xl;
 
 		&.with-shadow {
 			@apply shadow-primary-400 text-shadow text-shadow-y-1 sm:text-shadow-y-1.5 lg:text-shadow-y-2;
