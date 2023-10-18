@@ -55,7 +55,7 @@ export default function HomeLayout({
 				></script>
 			</head>
 			<body className="bg-[#337641]">
-				<header className="container flex flex-wrap items-center justify-between py-4">
+				<header className="container flex flex-wrap items-center justify-between py-4 pt-7">
 					<Logos />
 					<menu id="header-menu" />
 				</header>

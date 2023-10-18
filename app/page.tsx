@@ -26,7 +26,7 @@ export default async function HomePage() {
 				{/* <div className="mx-auto mb-6 w-fit rounded-3xl bg-primary-400 px-10 py-5">
 					<p className="text-center font-shrikhand text-3xl">Welcome back!</p>
 				</div> */}
-				<h1 className="h1 with-shadow text-center">So, how are you?</h1>
+				<h1 className="h1 with-shadow text-center pb-5">So, how are you?</h1>
 				<FilbisAvatar className="center m-auto w-[75%] max-w-lg" />
 			</section>
 		</>
