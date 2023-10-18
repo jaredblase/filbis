@@ -1,6 +1,7 @@
-import { SessionsClient } from '@google-cloud/dialogflow'
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '../auth/[...nextauth]/auth'
+import { logger } from '@/lib/logger'
+import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 
 type body = {
 	text: string
@@ -21,28 +22,24 @@ export async function POST(req: NextRequest) {
 	}
 
 	// client for intent matching & getting responses
-	const client = new SessionsClient({
-		credentials: {
-			client_email: process.env.CX_CLIENT_EMAIL,
-			private_key: process.env.CX_CLIENT_KEY.split(String.raw`\n`).join('\n'),
-		},
-	})
+	try {
+		const res = await detectIntent(session.user.email, body.text)
+		logger.info(JSON.stringify(res.queryResult?.fulfillmentMessages, null, 2))
 
-	const sessionPath = client.projectAgentSessionPath(
-		process.env.CX_PROJECT_ID,
-		session.user.email
-	)
+		const data = extractPromptAndChoices(res)
 
-	const response = await client.detectIntent({
-		session: sessionPath,
-		queryInput: {
-			text: {
-				text: body.text, // USER UTTERANCE / TEXT / CHAT MESSAGE,
-				languageCode: 'en',
-			},
-		},
-	})
+		if (!data.prompt) {
+			throw Error(
+				`[${session.user.email}] Empty prompt for payload: ${body.text}`
+			)
+		}
 
-	console.log(response[0].queryResult?.fulfillmentMessages) // WHERE THE TEXT RESPONSE IS STORED
-	NextResponse.json(response[0])
+		return NextResponse.json(data)
+	} catch (e) {
+		logger.error(e)
+		return NextResponse.json(
+			'Filbis is not feeling well right now. Come back later!',
+			{ status: 500 }
+		)
+	}
 }

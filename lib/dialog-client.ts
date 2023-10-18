@@ -1,4 +1,11 @@
 import { SessionsClient } from '@google-cloud/dialogflow'
+import { google } from '@google-cloud/dialogflow/build/protos/protos'
+import { structProtoToJson } from './dialog-struct-parser'
+
+export type Choice = {
+	title: string
+	payload: string
+}
 
 export const dialogClient = new SessionsClient({
 	credentials: {
@@ -28,4 +35,30 @@ export async function detectIntent(
 	})
 
 	return response[0]
+}
+
+export function extractPromptAndChoices(
+	res: google.cloud.dialogflow.v2.IDetectIntentResponse
+) {
+	let prompt: string | undefined
+	let choices: Array<Choice> = []
+
+	const message = res.queryResult?.fulfillmentMessages?.[0]
+
+	if (message?.text) {
+		prompt = message.text.text?.[0]
+	} else if (message?.payload) {
+		const data = structProtoToJson(message.payload)
+
+		prompt = data.text
+		choices = data.quick_replies.map((q: any) => ({
+			title: q.title,
+			payload: q.payload,
+		}))
+	}
+
+	return {
+		prompt,
+		choices,
+	}
 }
