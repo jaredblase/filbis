@@ -6,5 +6,6 @@
 	"singleQuote": true,
 	"plugins": ["prettier-plugin-tailwindcss"],
 	"arrowParens": "avoid",
-	"endOfLine": "crlf"
+	"endOfLine": "crlf",
+	"printWidth": 80
 }
