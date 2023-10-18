@@ -38,6 +38,7 @@
 		"autoprefixer": "^10.4.16",
 		"bun-types": "latest",
 		"cssnano": "^6.0.1",
+		"encoding": "^0.1.13",
 		"eslint": "^8.51.0",
 		"eslint-config-next": "^13.5.4",
 		"eslint-config-prettier": "^9.0.0",
@@ -48,5 +49,12 @@
 	},
 	"svgr": {
 		"component": true
+	},
+	"overrides": {
+		"@google-cloud/dialogflow": {
+			"google-gax": {
+				"retry-request": "^7.0.1"
+			}
+		}
 	}
 }
