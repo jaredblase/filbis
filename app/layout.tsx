@@ -54,7 +54,7 @@ export default function HomeLayout({
 					crossOrigin="anonymous"
 				></script>
 			</head>
-			<body className="bg-[#245c94]">
+			<body className="bg-[#337641]">
 				<header className="container flex flex-wrap items-center justify-between py-4">
 					<Logos />
 					<menu id="header-menu" />

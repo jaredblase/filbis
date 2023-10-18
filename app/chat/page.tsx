@@ -15,11 +15,11 @@ export default async function ChatPage() {
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
-					viewBox="0 0 1280 287"
+					viewBox="0 0 1280 348"
 					className="max-h-[inherit] w-full"
 				>
-					<path d="M-1 45.5V-0.5L1280.5 0V176L-1 45.5Z" fill="#215386" />
-					<path d="M523 -1L0 287V-1H523Z" fill="#306CA8" />
+					<path d="M-0.239255 82.5L0 -1L1281.5 -0.5V237C1260.5 86.5 671 133.5 -0.239255 82.5Z" fill="#408B51"/>
+					<path d="M657 -0.74366C419 42.0152 146.5 170.5 -1 348L0 -1L657 -0.74366Z" fill="#2C6839"/>
 				</svg>
 			</div>
 			<MenuBar src={session.user.image} />
