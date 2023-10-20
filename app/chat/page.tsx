@@ -13,7 +13,7 @@ async function getData() {
 		return redirect('/')
 	}
 
-	const res = await detectIntent(session.user.email, 'webhook')
+	const res = await detectIntent(session.user.email, 'hello')
 	const { prompt, choices } = extractPromptAndChoices(res)
 
 	if (!prompt)

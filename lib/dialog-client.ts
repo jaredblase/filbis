@@ -1,6 +1,6 @@
-import { SessionsClient } from '@google-cloud/dialogflow'
-import { google } from '@google-cloud/dialogflow/build/protos/protos'
+import { SessionsClient } from '@google-cloud/dialogflow-cx'
 import { structProtoToJson } from './dialog-struct-parser'
+import { google } from '@google-cloud/dialogflow-cx/build/protos/protos'
 
 export type Choice = {
 	title: string
@@ -19,17 +19,19 @@ export async function detectIntent(
 	text: string,
 	languageCode = 'en'
 ) {
-	const sessionPath = dialogClient.projectAgentSessionPath(
+	const sessionPath = dialogClient.projectLocationAgentSessionPath(
 		process.env.CX_PROJECT_ID,
+		'global',
+		process.env.CX_BOT_ID,
 		sessionKey
 	)
 
 	const response = await dialogClient.detectIntent({
 		session: sessionPath,
 		queryInput: {
+			languageCode,
 			text: {
 				text,
-				languageCode,
 			},
 		},
 	})
@@ -38,12 +40,12 @@ export async function detectIntent(
 }
 
 export function extractPromptAndChoices(
-	res: google.cloud.dialogflow.v2.IDetectIntentResponse
+	res: google.cloud.dialogflow.cx.v3.IDetectIntentResponse
 ) {
 	let prompt: string | undefined
 	let choices: Array<Choice> = []
 
-	const message = res.queryResult?.fulfillmentMessages?.[0]
+	const message = res.queryResult?.responseMessages?.[0]
 
 	if (message?.text) {
 		prompt = message.text.text?.[0]
@@ -51,10 +53,11 @@ export function extractPromptAndChoices(
 		const data = structProtoToJson(message.payload)
 
 		prompt = data.text
-		choices = data.quick_replies.map((q: any) => ({
-			title: q.title,
-			payload: q.payload,
-		}))
+		choices =
+			data.quick_replies?.map((q: any) => ({
+				title: q.title,
+				payload: q.payload,
+			})) ?? []
 	}
 
 	return {
