@@ -1,11 +1,15 @@
 'use client'
 
-import { PaperPlaneRight } from '@phosphor-icons/react/dist/ssr/index'
+import {
+	PaperPlaneRight,
+	Microphone,
+} from '@phosphor-icons/react/dist/ssr/index'
 import { redirect } from 'next/navigation'
 import { FormEventHandler, useEffect } from 'react'
 import wretch from 'wretch'
 import { useChatActions, useChoices } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
+import { useRecorder } from '@/lib/use-recorder'
 
 type ChatFormProps = {
 	choices: Array<Choice>
@@ -14,6 +18,7 @@ type ChatFormProps = {
 export function ChatForm({ choices }: ChatFormProps) {
 	const { setPrompt, setChoices } = useChatActions()
 	const storedChoices = useChoices()
+	const { start, stop, data, isRecording } = useRecorder()
 
 	useEffect(() => setChoices(choices), [])
 
@@ -22,7 +27,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 		const { submitter } = e.nativeEvent as SubmitEvent
 		const form = e.target as HTMLFormElement
-	
+
 		let payload: string
 
 		if (submitter && 'value' in submitter && submitter.value) {
@@ -36,7 +41,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 		const res = await wretch('/api/chat')
 			.post({ text: payload })
-			.badRequest((res) => console.error(res.cause))
+			.badRequest(res => console.error(res.cause))
 			.unauthorized(() => redirect('/'))
 			.internalError(res => console.error(res.cause))
 			.json<ReturnType<typeof extractPromptAndChoices>>()
@@ -49,21 +54,44 @@ export function ChatForm({ choices }: ChatFormProps) {
 		}
 	}
 
+	async function handleMicClick() {
+		if (isRecording) {
+			return stop()
+		}
+
+		start()
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
-			<div className="flex flex-col gap-y-3 text-xl mb-4">
-				{storedChoices.map(choice =>
-					<button key={choice.payload} className="btn btn-primary w-full" value={choice.payload}>{choice.title}</button>
-				)}
+			<div className="mb-4 flex flex-col gap-y-3 text-xl">
+				{storedChoices.map(choice => (
+					<button
+						key={choice.payload}
+						className="btn btn-primary w-full"
+						value={choice.payload}
+					>
+						{choice.title}
+					</button>
+				))}
 			</div>
 			<div className="flex w-full items-center gap-x-2">
 				<div className="relative flex-1">
 					<input
 						type="text"
-						className="w-full rounded-full bg-white/50"
+						className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
 						placeholder="Type anything here!"
 						name="input"
 					/>
+					<button
+						className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
+							isRecording ? 'btn-primary animate-pulse' : ''
+						}`}
+						type="button"
+						onClick={handleMicClick}
+					>
+						<Microphone className="icon" />
+					</button>
 				</div>
 				<button className="w-10 py-1">
 					<PaperPlaneRight className="icon" />
