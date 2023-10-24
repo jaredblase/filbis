@@ -16,7 +16,7 @@ const useChatStore = create<ChatStore>(set => ({
 	actions: {
 		setPrompt: prompt => set({ prompt }),
 		setChoices: choices => set({ choices }),
-	}
+	},
 }))
 
 export const usePrompt = () => useChatStore(state => state.prompt)
