@@ -53,7 +53,7 @@ export default async function ChatPage() {
 				<div className="container grid w-full gap-16 lg:grid-cols-2">
 					<div>
 						<PromptMessage
-							className="text-2xl mb-4 text-secondary-100 text-center font-medium"
+							className="mb-4 text-center text-2xl font-medium text-secondary-100"
 							prompt={prompt}
 						/>
 						<FilbisAvatar className="center mx-auto w-full max-w-md" />

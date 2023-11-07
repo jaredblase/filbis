@@ -10,7 +10,7 @@ export function useLoading(delayedMs = 500, timeoutMs = 8000) {
 	function start() {
 		setSubmitting(true)
 		delayedTimer.current = setTimeout(() => setDelayed(true), delayedMs)
-		timeoutTimer.current = setTimeout(() => setTimedOut(true)	, timeoutMs)
+		timeoutTimer.current = setTimeout(() => setTimedOut(true), timeoutMs)
 	}
 
 	function stop() {

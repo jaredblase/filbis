@@ -69,7 +69,7 @@
 
 @layer components {
 	.btn {
-		@apply rounded-full p-3 font-shrikhand transition-colors disabled:opacity-70 disabled:cursor-not-allowed;
+		@apply rounded-full p-3 font-shrikhand transition-colors disabled:cursor-not-allowed disabled:opacity-70;
 
 		&.btn-primary {
 			@apply bg-primary-400 text-secondary-100 [&:not(:disabled)]:hover:bg-primary-500 [&:not(:disabled)]:active:bg-primary-600;
