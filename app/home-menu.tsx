@@ -1,6 +1,6 @@
 'use client'
 
-import { useHeaderMenu } from '@/lib/useHeaderMenu'
+import { useHeaderMenu } from '@/lib/user-header-menu'
 import { createPortal } from 'react-dom'
 import { signIn } from 'next-auth/react'
 

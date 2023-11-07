@@ -6,7 +6,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { useHeaderMenu } from '@/lib/useHeaderMenu'
+import { useHeaderMenu } from '@/lib/user-header-menu'
 import {
 	SpeakerX,
 	ClockCounterClockwise,
