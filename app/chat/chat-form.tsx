@@ -10,6 +10,8 @@ import wretch from 'wretch'
 import { useChatActions, useChoices } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
+import { useLoading } from '@/lib/use-loader'
+import { Spinner } from '@/components/spinner'
 
 type ChatFormProps = {
 	choices: Array<Choice>
@@ -19,6 +21,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 	const { setPrompt, setChoices } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, data, isRecording } = useRecorder()
+	const loading = useLoading()
 
 	useEffect(() => setChoices(choices), [])
 
@@ -39,6 +42,8 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 		if (!payload) return console.error('payload cannot be empty!')
 
+		loading.start()
+
 		const res = await wretch('/api/chat')
 			.post({ text: payload })
 			.badRequest(res => console.error(res.cause))
@@ -52,6 +57,8 @@ export function ChatForm({ choices }: ChatFormProps) {
 		if (!res.prompt?.includes('again')) {
 			form.reset()
 		}
+
+		loading.stop()
 	}
 
 	async function handleMicClick() {
@@ -64,17 +71,23 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<div className="mb-4 flex flex-col gap-y-3 text-xl">
-				{storedChoices.map(choice => (
-					<button
-						key={choice.payload}
-						className="btn btn-primary w-full"
-						value={choice.payload}
-					>
-						{choice.title}
-					</button>
-				))}
-			</div>
+			{loading.delayed ? (
+				<Spinner className="mx-auto" />
+			) : (
+				<div className="mb-4 flex flex-col gap-y-3 text-xl">
+					{storedChoices.map(choice => (
+						<button
+							key={choice.payload}
+							className="btn btn-primary w-full"
+							value={choice.payload}
+							disabled={loading.submitting}
+						>
+							{choice.title}
+						</button>
+					))}
+				</div>
+			)}
+
 			<div className="flex w-full items-center gap-x-2">
 				<div className="relative flex-1">
 					<input

@@ -69,10 +69,10 @@
 
 @layer components {
 	.btn {
-		@apply rounded-full p-3 font-shrikhand transition-colors;
+		@apply rounded-full p-3 font-shrikhand transition-colors disabled:opacity-70 disabled:cursor-not-allowed;
 
 		&.btn-primary {
-			@apply bg-primary-400 text-secondary-100 hover:bg-primary-500 active:bg-primary-600;
+			@apply bg-primary-400 text-secondary-100 [&:not(:disabled)]:hover:bg-primary-500 [&:not(:disabled)]:active:bg-primary-600;
 		}
 	}
 
