@@ -5,13 +5,14 @@ import {
 	Microphone,
 } from '@phosphor-icons/react/dist/ssr/index'
 import { redirect } from 'next/navigation'
-import { FormEventHandler, useEffect } from 'react'
+import { FormEventHandler, MouseEventHandler, useEffect, useRef } from 'react'
 import wretch from 'wretch'
 import { useChatActions, useChoices } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
 import { useLoading } from '@/lib/use-loader'
 import { Spinner } from '@/components/spinner'
+import FormDataAddon from 'wretch/addons/formData'
 
 type ChatFormProps = {
 	choices: Array<Choice>
@@ -20,42 +21,48 @@ type ChatFormProps = {
 export function ChatForm({ choices }: ChatFormProps) {
 	const { setPrompt, setChoices } = useChatActions()
 	const storedChoices = useChoices()
-	const { start, stop, data, isRecording } = useRecorder()
+	const { start, stop, getFile, clearData, isRecording } = useRecorder()
 	const loading = useLoading()
+	const form = useRef<HTMLFormElement>(null)
 
 	useEffect(() => setChoices(choices), [])
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault()
 
-		const { submitter } = e.nativeEvent as SubmitEvent
-		const form = e.target as HTMLFormElement
+		const formData = new FormData(form.current!)
+		const file = getFile()
 
-		let payload: string
-
-		if (submitter && 'value' in submitter && submitter.value) {
-			payload = submitter.value as string
-		} else {
-			const data = Object.fromEntries(new FormData(form))
-			payload = data.input.toString()
+		if (formData.get('text') === '') {
+			formData.delete('text')
 		}
 
-		if (!payload) return console.error('payload cannot be empty!')
+		if (file) {
+			formData.append('audio', file)
+			clearData()
+		}
+
+		if (!Array.from(formData.keys()).length)
+			return console.error('Payload cannot be empty!')
 
 		loading.start()
 
 		const res = await wretch('/api/chat')
-			.post({ text: payload })
-			.badRequest(res => console.error(res.cause))
+			.addon(FormDataAddon)
+			.formData(Object.fromEntries(formData))
+			.post()
+			.badRequest(res => console.error('Invalid'))
 			.unauthorized(() => redirect('/'))
-			.internalError(res => console.error(res.cause))
+			.internalError(res => console.error('Internal error'))
 			.json<ReturnType<typeof extractPromptAndChoices>>()
 
-		setPrompt(res.prompt ?? '')
-		setChoices(res.choices)
+		if (res) {
+			setPrompt(res.prompt ?? '')
+			setChoices(res.choices)
 
-		if (!res.prompt?.includes('again')) {
-			form.reset()
+			if (!res.prompt?.includes('again')) {
+				form.current?.reset()
+			}
 		}
 
 		loading.stop()
@@ -63,14 +70,22 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 	async function handleMicClick() {
 		if (isRecording) {
-			return stop()
+			return stop().then(() => form.current?.requestSubmit())
 		}
 
 		start()
 	}
 
+	const handleChoiceClick: MouseEventHandler = e => {
+		const input = form.current?.querySelector('input')
+		if (input) {
+			input.value = (e.target as HTMLButtonElement).value
+			form.current?.requestSubmit()
+		}
+	}
+
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} ref={form}>
 			{loading.delayed ? (
 				<Spinner className="mx-auto" />
 			) : (
@@ -78,8 +93,10 @@ export function ChatForm({ choices }: ChatFormProps) {
 					{storedChoices.map(choice => (
 						<button
 							key={choice.payload}
+							type="button"
 							className="btn btn-primary w-full"
 							value={choice.payload}
+							onClick={handleChoiceClick}
 							disabled={loading.submitting}
 						>
 							{choice.title}
@@ -94,7 +111,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 						type="text"
 						className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
 						placeholder="Type anything here!"
-						name="input"
+						name="text"
 					/>
 					<button
 						className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
