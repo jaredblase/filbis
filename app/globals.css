@@ -74,10 +74,18 @@
 		&.btn-primary {
 			@apply bg-primary-400 text-secondary-100 [&:not(:disabled)]:hover:bg-primary-500 [&:not(:disabled)]:active:bg-primary-600;
 		}
+
+		&:disabled .icon {
+			@apply hover:fill-white active:fill-white;
+		}
 	}
 
 	.icon {
 		@apply fill-white transition-colors hover:fill-slate-200 active:fill-slate-300;
+	}
+
+	.scrollbar, .scrollbar-thin {
+		@apply scrollbar-thumb-white/50 scrollbar-track-transparent
 	}
 }
 

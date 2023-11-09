@@ -24,6 +24,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
 	const loading = useLoading()
 	const form = useRef<HTMLFormElement>(null)
+	const input = useRef<HTMLInputElement>(null)
 
 	useEffect(() => setChoices(choices), [])
 
@@ -77,56 +78,56 @@ export function ChatForm({ choices }: ChatFormProps) {
 	}
 
 	const handleChoiceClick: MouseEventHandler = e => {
-		const input = form.current?.querySelector('input')
-		if (input) {
-			input.value = (e.target as HTMLButtonElement).value
-			form.current?.requestSubmit()
-		}
+		if (!input.current) return
+		input.current.value = (e.target as HTMLButtonElement).value
+		form.current?.requestSubmit()
 	}
 
 	return (
 		<form onSubmit={handleSubmit} ref={form}>
-			{loading.delayed ? (
-				<Spinner className="mx-auto" />
-			) : (
-				<div className="mb-4 flex flex-col gap-y-3 text-xl">
-					{storedChoices.map(choice => (
-						<button
-							key={choice.payload}
-							type="button"
-							className="btn btn-primary w-full"
-							value={choice.payload}
-							onClick={handleChoiceClick}
-							disabled={loading.submitting}
-						>
-							{choice.title}
-						</button>
-					))}
-				</div>
-			)}
+			<fieldset disabled={loading.submitting}>
+				{loading.delayed ? (
+					<Spinner className="mx-auto" />
+				) : (
+					<div className="mb-4 flex flex-col gap-y-3 text-xl max-h-72 overflow-y-auto scrollbar-thin px-2">
+						{storedChoices.map(choice => (
+							<button
+								key={choice.payload}
+								type="button"
+								className="btn btn-primary w-full"
+								value={choice.payload}
+								onClick={handleChoiceClick}
+							>
+								{choice.title}
+							</button>
+						))}
+					</div>
+				)}
 
-			<div className="flex w-full items-center gap-x-2">
-				<div className="relative flex-1">
-					<input
-						type="text"
-						className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-						placeholder="Type anything here!"
-						name="text"
-					/>
-					<button
-						className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
-							isRecording ? 'btn-primary animate-pulse' : ''
-						}`}
-						type="button"
-						onClick={handleMicClick}
-					>
-						<Microphone className="icon" />
+				<div className="flex w-full items-center gap-x-2">
+					<div className="relative flex-1">
+						<input
+							type="text"
+							className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
+							placeholder="Type anything here!"
+							name="text"
+							ref={input}
+						/>
+						<button
+							className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
+								isRecording ? 'btn-primary animate-pulse' : ''
+							}`}
+							type="button"
+							onClick={handleMicClick}
+						>
+							<Microphone className="icon" />
+						</button>
+					</div>
+					<button className="btn w-10 p-0">
+						<PaperPlaneRight className="icon" />
 					</button>
 				</div>
-				<button className="w-10 py-1">
-					<PaperPlaneRight className="icon" />
-				</button>
-			</div>
+			</fieldset>
 		</form>
 	)
 }
