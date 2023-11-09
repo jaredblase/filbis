@@ -84,6 +84,7 @@ module.exports = {
 	plugins: [
 		require('@tailwindcss/forms')({ strategy: 'base' }),
 		require('tailwindcss-animate'),
+		require('tailwind-scrollbar'),
 		plugin(function ({ addUtilities }) {
 			addUtilities({
 				'.text-shadow': {
