@@ -11,6 +11,7 @@ declare global {
 			CX_PROJECT_ID: string
 			CX_BOT_ID: string
 			LOG_LEVEL?: LogLevel
+			ASR_API: string
 		}
 	}
 }

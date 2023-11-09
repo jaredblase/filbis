@@ -2,28 +2,54 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '../auth/[...nextauth]/auth'
 import { logger } from '@/lib/logger'
 import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
-
-type body = {
-	text: string
-}
+import wretch from 'wretch'
+import FormDataAddOn from 'wretch/addons/formData'
+import fs from 'fs/promises'
+import fsSync, { fsync } from 'fs'
 
 export async function POST(req: NextRequest) {
-	const [session, body] = await Promise.all([
-		auth(),
-		req.json() as Promise<body>,
-	])
+	const [session, body] = await Promise.all([auth(), req.formData()])
 
 	if (!session?.user?.email) {
 		return NextResponse.json('You are not logged in!', { status: 401 })
 	}
 
-	if (!body.text) {
-		return NextResponse.json('Message cannot be empty!', { status: 400 })
+	let text = ''
+
+	if (body.has('text')) {
+		text = body.get('text')!.toString()
+	} else if (body.has('audio')) {
+		const audio = body.get('audio') as Blob
+
+		await fs.writeFile(
+			'/tmp/test.wav',
+			new Uint8Array(await audio.arrayBuffer())
+		)
+
+		const res = await wretch(process.env.ASR_API)
+			.addon(FormDataAddOn)
+			.formData({
+				speaker: 'children',
+				language: 'filipino',
+				file: audio,
+			})
+			.post()
+			.json<{ result: string }>()
+			.catch(err => console.log('----error----\n', err.response))
+
+		if (!res)
+			return NextResponse.json('Sorry we could not get that.', { status: 500 })
+
+		text = res.result
 	}
+
+	logger.debug('CLIENT REQUEST CONTENT: ' + text)
+	if (!text)
+		return NextResponse.json('Message cannot be empty!', { status: 400 })
 
 	// client for intent matching & getting responses
 	try {
-		const res = await detectIntent(session.user.email, body.text)
+		const res = await detectIntent(session.user.email, text)
 		logger.debug(
 			'--- DIALOG RESPONSE ---\n' +
 				JSON.stringify(res.queryResult?.responseMessages, null, 2)
@@ -32,9 +58,7 @@ export async function POST(req: NextRequest) {
 		const data = extractPromptAndChoices(res)
 
 		if (!data.prompt) {
-			throw Error(
-				`[${session.user.email}] Empty prompt for payload: ${body.text}`
-			)
+			throw Error(`[${session.user.email}] Empty prompt for payload: ${text}`)
 		}
 
 		return NextResponse.json(data)
