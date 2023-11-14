@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 	metadataBase: new URL(process.env.NEXTAUTH_URL ?? 'http://localhost:3000'),
 	description:
 		'Filbis is your Ultimate Health Chatbot made for children. Developed by the students of De La Salle University and the Department of Science and Technology with ❤️.',
-	themeColor: '#448C4A',
 	manifest: '/manifest.webmanifest',
 	applicationName: 'Filbis',
 	generator: 'Next.js',
@@ -35,6 +34,10 @@ export const metadata: Metadata = {
 			height: 630,
 		},
 	},
+}
+
+export const viewport = {
+	themeColor: '#448C4A',
 }
 
 export default function HomeLayout({
