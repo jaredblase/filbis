@@ -59,7 +59,7 @@ export default function HomeLayout({
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="grid min-h-[calc(100vh-144px)] items-center">
+				<main className="grid min-h-[calc(100vh-157px)] items-center">
 					{children}
 				</main>
 			</body>

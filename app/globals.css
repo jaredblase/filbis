@@ -84,8 +84,9 @@
 		@apply fill-white transition-colors hover:fill-slate-200 active:fill-slate-300;
 	}
 
-	.scrollbar, .scrollbar-thin {
-		@apply scrollbar-thumb-white/50 scrollbar-track-transparent
+	.scrollbar,
+	.scrollbar-thin {
+		@apply scrollbar-track-transparent scrollbar-thumb-white/50;
 	}
 }
 

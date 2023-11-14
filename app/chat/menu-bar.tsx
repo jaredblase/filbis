@@ -15,6 +15,7 @@ import {
 } from '@phosphor-icons/react/dist/ssr/index'
 import { signOut } from 'next-auth/react'
 import { createPortal } from 'react-dom'
+import { MobileMenuBar } from './mobile-menu-bar'
 
 type MenuBarProps = {
 	src?: string | null
@@ -26,36 +27,39 @@ export function MenuBar({ src }: MenuBarProps) {
 	if (!headerMenu) return <></>
 
 	return createPortal(
-		<menu className="flex h-14 gap-x-6 [&_*]:aspect-square">
-			<button>
-				<SpeakerX className="icon" />
-			</button>
-			<button>
-				<ClockCounterClockwise className="icon" />
-			</button>
-			<button>
-				<Info className="icon" />
-			</button>
-			<button>
-				<GearSix className="icon" />
-			</button>
-			<Popover>
-				<PopoverTrigger>
-					<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
-						<AvatarImage src={src ?? undefined} />
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
-				</PopoverTrigger>
-				<PopoverContent>
-					<button
-						className="btn btn-primary w-full"
-						onClick={() => signOut({ callbackUrl: '/' })}
-					>
-						Logout
-					</button>
-				</PopoverContent>
-			</Popover>
-		</menu>,
+		<>
+			<MobileMenuBar className="lg:hidden" />
+			<menu className="flex h-14 gap-x-6 max-lg:hidden max-md:flex-col [&_*]:aspect-square">
+				<button>
+					<SpeakerX className="icon" />
+				</button>
+				<button>
+					<ClockCounterClockwise className="icon" />
+				</button>
+				<button>
+					<Info className="icon" />
+				</button>
+				<button>
+					<GearSix className="icon" />
+				</button>
+				<Popover>
+					<PopoverTrigger>
+						<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
+							<AvatarImage src={src ?? undefined} />
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
+					</PopoverTrigger>
+					<PopoverContent>
+						<button
+							className="btn btn-primary w-full"
+							onClick={() => signOut({ callbackUrl: '/' })}
+						>
+							Logout
+						</button>
+					</PopoverContent>
+				</Popover>
+			</menu>
+		</>,
 		headerMenu
 	)
 }

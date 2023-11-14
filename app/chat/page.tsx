@@ -49,7 +49,7 @@ export default async function ChatPage() {
 				</svg>
 			</div>
 			<MenuBar src={image} />
-			<section>
+			<section className="pb-16">
 				<div className="container grid w-full gap-16 lg:grid-cols-2">
 					<div>
 						<PromptMessage
