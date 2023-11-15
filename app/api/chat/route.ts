@@ -5,7 +5,6 @@ import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import wretch from 'wretch'
 import FormDataAddOn from 'wretch/addons/formData'
 import fs from 'fs/promises'
-import fsSync, { fsync } from 'fs'
 
 export async function POST(req: NextRequest) {
 	const [session, body] = await Promise.all([auth(), req.formData()])
@@ -34,27 +33,21 @@ export async function POST(req: NextRequest) {
 				file: audio,
 			})
 			.post()
-			.json<{ result: string }>()
+			.json<string>()
 			.catch(err => console.log('----error----\n', err.response))
 
 		if (!res)
 			return NextResponse.json('Sorry we could not get that.', { status: 500 })
 
-		text = res.result
+		text = res
 	}
 
-	logger.debug('CLIENT REQUEST CONTENT: ' + text)
 	if (!text)
 		return NextResponse.json('Message cannot be empty!', { status: 400 })
 
 	// client for intent matching & getting responses
 	try {
 		const res = await detectIntent(session.user.email, text)
-		logger.debug(
-			'--- DIALOG RESPONSE ---\n' +
-				JSON.stringify(res.queryResult?.responseMessages, null, 2)
-		)
-
 		const data = extractPromptAndChoices(res)
 
 		if (!data.prompt) {

@@ -1,6 +1,7 @@
 import { SessionsClient } from '@google-cloud/dialogflow-cx'
 import { structProtoToJson } from './dialog-struct-parser'
 import { google } from '@google-cloud/dialogflow-cx/build/protos/protos'
+import { logger } from './logger'
 
 export type Choice = {
 	title: string
@@ -26,6 +27,8 @@ export async function detectIntent(
 		sessionKey
 	)
 
+	logger.debug('CLIENT REQUEST CONTENT: ' + text)
+
 	const response = await dialogClient.detectIntent({
 		session: sessionPath,
 		queryInput: {
@@ -36,7 +39,14 @@ export async function detectIntent(
 		},
 	})
 
-	return response[0]
+	const res = response[0]
+
+	logger.debug(
+		'--- DIALOG RESPONSE ---\n' +
+			JSON.stringify(res.queryResult?.responseMessages, null, 2)
+	)
+
+	return res
 }
 
 export function extractPromptAndChoices(
