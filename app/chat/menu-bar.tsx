@@ -28,7 +28,7 @@ export function MenuBar({ src }: MenuBarProps) {
 
 	return createPortal(
 		<>
-			<MobileMenuBar className="lg:hidden" />
+			<MobileMenuBar className="lg:hidden" src={src} />
 			<menu className="flex h-14 gap-x-6 max-lg:hidden max-md:flex-col [&_*]:aspect-square">
 				<button>
 					<SpeakerX className="icon" />
@@ -46,10 +46,10 @@ export function MenuBar({ src }: MenuBarProps) {
 					<PopoverTrigger>
 						<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
 							<AvatarImage src={src ?? undefined} />
-							<AvatarFallback>CN</AvatarFallback>
+							<AvatarFallback>Profile Picture</AvatarFallback>
 						</Avatar>
 					</PopoverTrigger>
-					<PopoverContent>
+					<PopoverContent hideWhenDetached>
 						<button
 							className="btn btn-primary w-full"
 							onClick={() => signOut({ callbackUrl: '/' })}

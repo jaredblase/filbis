@@ -10,17 +10,24 @@ import {
 	ClockCounterClockwise,
 	Info,
 	GearSix,
-	DotsThreeOutlineVertical,
 	SignOut,
 } from '@phosphor-icons/react/dist/ssr/index'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { PopoverTriggerProps } from '@radix-ui/react-popover'
 import { signOut } from 'next-auth/react'
 
-export function MobileMenuBar(props: PopoverTriggerProps) {
+type MobileMenuBarProps = {
+	src?: string | null
+} & PopoverTriggerProps
+
+export function MobileMenuBar({ src, ...props }: MobileMenuBarProps) {
 	return (
 		<Popover>
 			<PopoverTrigger {...props}>
-				<DotsThreeOutlineVertical size={32} className="icon" />
+				<Avatar className="w-16 cursor-pointer transition-transform hover:scale-105 active:scale-100">
+					<AvatarImage src={src ?? undefined} />
+					<AvatarFallback>Profile Picture</AvatarFallback>
+				</Avatar>
 			</PopoverTrigger>
 			<PopoverContent
 				className="w-16 rounded-full border-none bg-primary-400 px-3 shadow-lg"
