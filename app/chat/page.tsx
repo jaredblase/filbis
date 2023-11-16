@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { ChatForm } from './chat-form'
 import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import { PromptMessage } from './prompt-message'
+import { cookies } from 'next/headers'
 
 async function getData() {
 	const session = await auth()
@@ -13,7 +14,10 @@ async function getData() {
 		return redirect('/')
 	}
 
-	const res = await detectIntent(session.user.email, 'hello')
+	const res = await detectIntent(
+		cookies().get('ss_id')?.value ?? session.user.email,
+		'hello'
+	)
 	const { prompt, choices } = extractPromptAndChoices(res)
 
 	if (!prompt)

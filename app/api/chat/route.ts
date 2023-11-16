@@ -5,6 +5,7 @@ import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import wretch from 'wretch'
 import FormDataAddOn from 'wretch/addons/formData'
 import fs from 'fs/promises'
+import { cookies } from 'next/headers'
 
 export async function POST(req: NextRequest) {
 	const [session, body] = await Promise.all([auth(), req.formData()])
@@ -47,7 +48,10 @@ export async function POST(req: NextRequest) {
 
 	// client for intent matching & getting responses
 	try {
-		const res = await detectIntent(session.user.email, text)
+		const res = await detectIntent(
+			cookies().get('ss_id')?.value ?? session.user.email,
+			text
+		)
 		const data = extractPromptAndChoices(res)
 
 		if (!data.prompt) {
