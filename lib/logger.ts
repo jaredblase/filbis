@@ -24,8 +24,10 @@ function log(level: LogLevel, data: any) {
 
 	if (data instanceof Error && data.stack) {
 		message += data.stack
+	} else if (data == null) {
+		message += 'null'
 	} else {
-		message += data.toString()
+		message += data?.toString() ?? 'undefined'
 	}
 
 	message += '\n'
