@@ -20,7 +20,7 @@ type MobileMenuBarProps = {
 	src?: string | null
 } & PopoverTriggerProps
 
-export function MobileMenuBar({ src, ...props }: MobileMenuBarProps) {
+export function MobileMenuBar({ src, children, ...props }: MobileMenuBarProps) {
 	return (
 		<Popover>
 			<PopoverTrigger {...props}>
@@ -34,18 +34,7 @@ export function MobileMenuBar({ src, ...props }: MobileMenuBarProps) {
 				hideWhenDetached
 			>
 				<menu className="grid gap-y-2 [&_*]:aspect-square">
-					<button>
-						<SpeakerX className="icon" />
-					</button>
-					<button>
-						<ClockCounterClockwise className="icon" />
-					</button>
-					<button>
-						<Info className="icon" />
-					</button>
-					<button>
-						<GearSix className="icon" />
-					</button>
+					{children}
 					<button onClick={() => signOut({ callbackUrl: '/' })}>
 						<SignOut className="icon" />
 					</button>
