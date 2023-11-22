@@ -23,7 +23,7 @@ type MenuBarProps = {
 }
 
 function renewSessionAndReload() {
-	wretch('/api/session').post().json().then(window.location.reload)
+	wretch('/api/session').post().json().then(() => window.location.reload())
 }
 
 export function MenuBar({ src }: MenuBarProps) {
@@ -57,6 +57,7 @@ export function MenuBar({ src }: MenuBarProps) {
 				{menuButtons}
 			</MobileMenuBar>
 			<menu className="flex h-14 gap-x-6 max-lg:hidden max-md:flex-col [&_*]:aspect-square">
+				{menuButtons}
 				<Popover>
 					<PopoverTrigger>
 						<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
