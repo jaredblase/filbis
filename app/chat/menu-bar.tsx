@@ -38,7 +38,7 @@ export function MenuBar({ src }: MenuBarProps) {
 				<button>
 					<ClockCounterClockwise className="icon" />
 				</button>
-				<button>
+				<button title="Restart session">
 					<ArrowCounterClockwise
 						className="icon"
 						onClick={renewSessionAndReload}

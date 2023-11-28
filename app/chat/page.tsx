@@ -6,6 +6,7 @@ import { ChatForm } from './chat-form'
 import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import { PromptMessage } from './prompt-message'
 import { cookies } from 'next/headers'
+import { FilbisUpAvatar } from '@/components/Filbis-up'
 
 async function getData() {
 	const session = await auth()
@@ -53,17 +54,16 @@ export default async function ChatPage() {
 				</svg>
 			</div>
 			<MenuBar src={image} />
-			<section className="pb-16">
-				<div className="container grid w-full gap-16 lg:grid-cols-2">
-					<div>
-						<PromptMessage
-							className="mb-4 text-center text-2xl font-medium text-secondary-100"
-							prompt={prompt}
-						/>
-						<FilbisAvatar className="center mx-auto w-full max-w-md" />
-					</div>
-					<div className="grid place-items-center rounded-3xl">
-						<div className="grid w-full max-w-md gap-y-8">
+			<section className="pt-16">
+				<div className="md:container max-md:px-2 grid w-full gap-40">
+					<PromptMessage
+						className="text-center text-2xl/snug sm:text-3xl/snug md:text-4xl/normal font-medium text-secondary-100 max-w-prose"
+						prompt={prompt}
+					/>
+
+					<div className="w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
+						<div className="relative mx-auto grid w-full max-w-sm gap-y-8 rounded-3xl py-14">
+							<FilbisUpAvatar className="absolute -top-36 left-[50%] -translate-x-[50%] -z-10  w-48" />
 							<p className="text-center text-xl font-medium text-secondary-100">
 								Click anything or type in the chatbox.
 							</p>
