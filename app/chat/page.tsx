@@ -55,18 +55,15 @@ export default async function ChatPage() {
 			</div>
 			<MenuBar src={image} />
 			<section className="pt-16">
-				<div className="md:container max-md:px-2 grid w-full gap-40">
+				<div className="grid w-full gap-40 md:container max-md:px-2">
 					<PromptMessage
-						className="text-center text-2xl/snug sm:text-3xl/snug md:text-4xl/normal font-medium text-secondary-100 max-w-prose"
+						className="max-w-prose text-center text-2xl/snug font-medium text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
 						prompt={prompt}
 					/>
 
 					<div className="w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
 						<div className="relative mx-auto grid w-full max-w-sm gap-y-8 rounded-3xl py-14">
-							<FilbisUpAvatar className="absolute -top-36 left-[50%] -translate-x-[50%] -z-10  w-48" />
-							<p className="text-center text-xl font-medium text-secondary-100">
-								Click anything or type in the chatbox.
-							</p>
+							<FilbisUpAvatar className="absolute -top-36 left-[50%] -z-10 w-48  -translate-x-[50%]" />
 							<ChatForm choices={choices} />
 						</div>
 					</div>

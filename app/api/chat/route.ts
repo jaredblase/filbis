@@ -35,10 +35,15 @@ export async function POST(req: NextRequest) {
 			})
 			.post()
 			.json<string>()
-			.catch(err => console.log('----error----\n', err.response))
+			.catch(err =>
+				console.log('----Error from ASR Server----\n', err.response)
+			)
 
 		if (!res)
-			return NextResponse.json('Sorry we could not get that.', { status: 500 })
+			return NextResponse.json(
+				'Sorry, we could not get that. Please try again.',
+				{ status: 500 }
+			)
 
 		text = res
 	}

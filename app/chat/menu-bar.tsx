@@ -23,7 +23,10 @@ type MenuBarProps = {
 }
 
 function renewSessionAndReload() {
-	wretch('/api/session').post().json().then(() => window.location.reload())
+	wretch('/api/session')
+		.post()
+		.json()
+		.then(() => window.location.reload())
 }
 
 export function MenuBar({ src }: MenuBarProps) {
