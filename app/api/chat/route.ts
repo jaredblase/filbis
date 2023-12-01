@@ -9,6 +9,7 @@ import { cookies } from 'next/headers'
 
 export async function POST(req: NextRequest) {
 	const [session, body] = await Promise.all([auth(), req.formData()])
+	const ckies = cookies()
 
 	if (!session?.user?.email) {
 		return NextResponse.json('You are not logged in!', { status: 401 })
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
 			.addon(FormDataAddOn)
 			.formData({
 				speaker: 'children',
-				language: 'filipino',
+				language: ckies.get('lang')?.value ?? 'filipino',
 				file: audio,
 			})
 			.post()
@@ -51,10 +52,19 @@ export async function POST(req: NextRequest) {
 	if (!text)
 		return NextResponse.json('Message cannot be empty!', { status: 400 })
 
+	text = text.toLowerCase()
+
+	// if setting the language
+	if (text === 'english' || text === 'cebuano') {
+		ckies.set('lang', text, { secure: true })
+	} else if (text === 'tagalog') {
+		ckies.set('lang', 'filipino', { secure: true })
+	}
+
 	// client for intent matching & getting responses
 	try {
 		const res = await detectIntent(
-			cookies().get('ss_id')?.value ?? session.user.email,
+			ckies.get('ss_id')?.value ?? session.user.email,
 			text
 		)
 		const data = extractPromptAndChoices(res)
