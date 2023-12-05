@@ -44,8 +44,9 @@ export function ChatForm({ choices }: ChatFormProps) {
 			clearData()
 		}
 
-		if (!Array.from(formData.keys()).length)
-			return console.error('Payload cannot be empty!')
+		if (!Array.from(formData.keys()).length) {
+			return setHelpText('Payload cannot be empty!')
+		}
 
 		loading.start()
 		setHelpText('Loading...')
