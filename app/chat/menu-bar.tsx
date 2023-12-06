@@ -9,7 +9,7 @@ import {
 import { useHeaderMenu } from '@/lib/user-header-menu'
 import {
 	SpeakerX,
-	ClockCounterClockwise,
+	SpeakerHigh,
 	ArrowCounterClockwise,
 } from '@phosphor-icons/react/dist/ssr/index'
 import { signOut } from 'next-auth/react'
@@ -17,6 +17,7 @@ import { createPortal } from 'react-dom'
 import { MobileMenuBar } from './mobile-menu-bar'
 import wretch from 'wretch'
 import { useMemo } from 'react'
+import { useChatActions, useIsMuted } from './store'
 
 type MenuBarProps = {
 	src?: string | null
@@ -31,15 +32,18 @@ function renewSessionAndReload() {
 
 export function MenuBar({ src }: MenuBarProps) {
 	const headerMenu = useHeaderMenu()
+	const { toggleMute } = useChatActions()
+	const isMuted = useIsMuted()
 
 	const menuButtons = useMemo(
 		() => (
 			<>
-				<button>
-					<SpeakerX className="icon" />
-				</button>
-				<button>
-					<ClockCounterClockwise className="icon" />
+				<button title="Toggle mute">
+					{isMuted ? (
+						<SpeakerX className="icon" onClick={toggleMute} />
+					) : (
+						<SpeakerHigh className="icon" onClick={toggleMute} />
+					)}
 				</button>
 				<button title="Restart session">
 					<ArrowCounterClockwise
@@ -49,7 +53,7 @@ export function MenuBar({ src }: MenuBarProps) {
 				</button>
 			</>
 		),
-		[]
+		[isMuted]
 	)
 
 	if (!headerMenu) return <></>

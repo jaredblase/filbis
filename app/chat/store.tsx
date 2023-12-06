@@ -5,10 +5,12 @@ type ChatStore = {
 	prompt: string
 	choices: Array<Choice>
 	helpText: string
+	isMuted: boolean
 	actions: {
 		setPrompt: (prompt: string) => void
 		setChoices: (choices: Array<Choice>) => void
 		setHelpText: (helpText: string) => void
+		toggleMute: () => void
 	}
 }
 
@@ -16,14 +18,17 @@ const useChatStore = create<ChatStore>(set => ({
 	prompt: 'Loading...',
 	choices: [],
 	helpText: 'Click anything or type in the chatbox.',
+	isMuted: true,
 	actions: {
 		setPrompt: prompt => set({ prompt }),
 		setChoices: choices => set({ choices }),
 		setHelpText: helpText => set({ helpText }),
+		toggleMute: () => set(state => ({ isMuted: !state.isMuted })),
 	},
 }))
 
 export const usePrompt = () => useChatStore(state => state.prompt)
 export const useChoices = () => useChatStore(state => state.choices)
 export const useHelpText = () => useChatStore(state => state.helpText)
+export const useIsMuted = () => useChatStore(state => state.isMuted)
 export const useChatActions = () => useChatStore(state => state.actions)
