@@ -51,24 +51,29 @@ export function ChatForm({ choices }: ChatFormProps) {
 		loading.start()
 		setHelpText('Loading...')
 
-		const res = await wretch('/api/chat')
+		// max 3 attempts in case of gateway timeout
+		for (let i = 0; i < 3; i++) {
+			const res = await wretch('/api/chat')
 			.addon(FormDataAddon)
 			.formData(Object.fromEntries(formData))
 			.post()
 			.badRequest(() => setHelpText('Invalid response. Please try again.'))
 			.unauthorized(() => redirect('/'))
 			.internalError(res => setHelpText(res.json))
+			.error(504, () => setHelpText('Request timeout. Attempting to resend request...')) // gateway timeout, vercel limitations
 			.json<ReturnType<typeof extractPromptAndChoices>>()
 
-		if (res) {
-			setPrompt(res.prompt ?? '')
-			setChoices(res.choices)
+			if (res) {
+				setPrompt(res.prompt ?? '')
+				setChoices(res.choices)
 
-			if (!res.prompt?.includes('again')) {
-				form.current?.reset()
+				if (!res.prompt?.includes('again')) {
+					form.current?.reset()
+				}
+
+				setHelpText('Click anything or type in the chatbox.')
+				break
 			}
-
-			setHelpText('Click anything or type in the chatbox.')
 		}
 
 		loading.stop()
@@ -98,7 +103,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 					{loading.delayed ? (
 						<Spinner className="mx-auto" />
 					) : (
-						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto px-2 text-xl scrollbar-thin">
+						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto max-sm:px-2 text-xl scrollbar-thin">
 							{storedChoices.map(choice => (
 								<button
 									key={choice.payload}
@@ -113,7 +118,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 						</div>
 					)}
 
-					<div className="flex w-full items-center gap-x-2">
+					<div className="flex w-full items-center gap-x-2 max-sm:px-2">
 						<div className="relative flex-1">
 							<input
 								type="text"
