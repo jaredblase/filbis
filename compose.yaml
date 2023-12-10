@@ -16,8 +16,8 @@ services:
       - 443:443
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      # - ./data/certbot/conf:/etc/letsencrypt
+      # - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   filbis:
@@ -29,8 +29,8 @@ services:
     expose:
       - 3000
     volumes:
-      - ./data/filbis/.env.local:/app/.env.local
-      - ./data/filbis/app.log:/app/app.log:rw
+      - ./.env.local:/app/.env.local
+      - ./app.log:/app/app.log
 
   # certbot:
   #   image: certbot/certbot

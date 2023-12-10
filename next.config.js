@@ -3,6 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
+	output: 'standalone',
 	images: {
 		domains: ['i.imgur.com'],
 	},
