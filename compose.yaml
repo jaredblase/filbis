@@ -1,0 +1,43 @@
+version: '3'
+networks:
+  main:
+    name: main
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      - main
+    depends_on:
+      - filbis
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  filbis:
+    container_name: filbis
+    image: filbis:latest
+    build: .
+    networks:
+      - main
+    expose:
+      - 3000
+    volumes:
+      - ./data/filbis/.env.local:/app/.env.local
+      - ./data/filbis/app.log:/app/app.log:rw
+
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   networks:
+  #     - main
+  #   volumes:
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
