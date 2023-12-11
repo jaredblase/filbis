@@ -53,6 +53,7 @@ export function extractPromptAndChoices(
 	res: google.cloud.dialogflow.cx.v3.IDetectIntentResponse
 ) {
 	let prompt: string | undefined
+	let voice: string | undefined
 	let choices: Array<Choice> = []
 
 	const message = res.queryResult?.responseMessages?.[0]
@@ -63,6 +64,7 @@ export function extractPromptAndChoices(
 		const data = structProtoToJson(message.payload)
 
 		prompt = data.text
+		voice = data.voice
 		choices =
 			data.quick_replies?.map((q: any) => ({
 				title: q.title,
@@ -72,6 +74,7 @@ export function extractPromptAndChoices(
 
 	return {
 		prompt,
+		voice,
 		choices,
 	}
 }

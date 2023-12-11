@@ -1,17 +1,37 @@
 'use client'
 
-import { HTMLAttributes, useEffect } from 'react'
-import { useChatActions, usePrompt } from './store'
+import { HTMLAttributes, useEffect, useRef } from 'react'
+import { useChatActions, useIsMuted, usePrompt, useVoice } from './store'
 
 type PromptMessageProps = {
 	prompt: string
+	voice?: string
 } & HTMLAttributes<HTMLParagraphElement>
 
-export function PromptMessage({ prompt, ...props }: PromptMessageProps) {
+export function PromptMessage({ prompt, voice, ...props }: PromptMessageProps) {
 	const storedPrompt = usePrompt()
-	const { setPrompt } = useChatActions()
+	const storedVoice = useVoice()
+	const isMuted = useIsMuted()
+	const { setPrompt, setVoice } = useChatActions()
+	const player = useRef<HTMLAudioElement>(null)
 
-	useEffect(() => setPrompt(prompt), [])
+	useEffect(() => {
+		setPrompt(prompt)
+		setVoice(voice)
+	}, [])
 
-	return <p {...props}>{storedPrompt}</p>
+	useEffect(() => {
+		if (storedVoice && !isMuted) player.current?.play().catch()
+	}, [storedVoice])
+
+	useEffect(() => {
+		if (player.current) player.current.volume = isMuted ? 0 : 1
+	}, [isMuted])
+
+	return (
+		<>
+			<p {...props}>{storedPrompt}</p>
+			<audio src={storedVoice} ref={player}></audio>
+		</>
+	)
 }

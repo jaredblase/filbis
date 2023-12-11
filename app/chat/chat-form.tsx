@@ -19,7 +19,7 @@ type ChatFormProps = {
 }
 
 export function ChatForm({ choices }: ChatFormProps) {
-	const { setPrompt, setChoices, setHelpText } = useChatActions()
+	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
 	const loading = useLoading()
@@ -54,17 +54,21 @@ export function ChatForm({ choices }: ChatFormProps) {
 		// max 3 attempts in case of gateway timeout
 		for (let i = 0; i < 3; i++) {
 			const res = await wretch('/api/chat')
-			.addon(FormDataAddon)
-			.formData(Object.fromEntries(formData))
-			.post()
-			.badRequest(() => setHelpText('Invalid response. Please try again.'))
-			.unauthorized(() => redirect('/'))
-			.internalError(res => setHelpText(res.json))
-			.error(504, () => setHelpText('Request timeout. Attempting to resend request...')) // gateway timeout, vercel limitations
-			.json<ReturnType<typeof extractPromptAndChoices>>()
+				.addon(FormDataAddon)
+				.formData(Object.fromEntries(formData))
+				.post()
+				.badRequest(() => setHelpText('Invalid response. Please try again.'))
+				.unauthorized(() => redirect('/'))
+				.internalError(res => setHelpText(res.json))
+				.error(504, () =>
+					// gateway timeout, vercel limitations
+					setHelpText('Request timeout. Attempting to resend request...')
+				)
+				.json<ReturnType<typeof extractPromptAndChoices>>()
 
 			if (res) {
 				setPrompt(res.prompt ?? '')
+				setVoice(res.voice)
 				setChoices(res.choices)
 
 				if (!res.prompt?.includes('again')) {
@@ -103,7 +107,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 					{loading.delayed ? (
 						<Spinner className="mx-auto" />
 					) : (
-						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto max-sm:px-2 text-xl scrollbar-thin">
+						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto text-xl scrollbar-thin max-sm:px-2">
 							{storedChoices.map(choice => (
 								<button
 									key={choice.payload}

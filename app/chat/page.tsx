@@ -1,4 +1,3 @@
-import { FilbisAvatar } from '@/components/Filbis'
 import { MenuBar } from './menu-bar'
 import { auth } from '../api/auth/[...nextauth]/auth'
 import { redirect } from 'next/navigation'
@@ -19,20 +18,21 @@ async function getData() {
 		cookies().get('ss_id')?.value ?? session.user.email,
 		'hello'
 	)
-	const { prompt, choices } = extractPromptAndChoices(res)
+	const { prompt, choices, voice } = extractPromptAndChoices(res)
 
 	if (!prompt)
 		throw Error('Filbis is not feeling well right now. Come back later!')
 
 	return {
 		prompt,
+		voice,
 		choices,
 		image: session.user.image,
 	}
 }
 
 export default async function ChatPage() {
-	const { prompt, choices, image } = await getData()
+	const { prompt, choices, voice, image } = await getData()
 
 	return (
 		<>
@@ -59,6 +59,7 @@ export default async function ChatPage() {
 					<PromptMessage
 						className="max-w-prose text-center text-2xl/snug font-medium text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
 						prompt={prompt}
+						voice={voice}
 					/>
 
 					<div className="w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
