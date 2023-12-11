@@ -13,7 +13,7 @@ export const authConfig = {
 		}),
 	],
 	jwt: {
-		maxAge: 60 * 30, // 30 minutes
+		maxAge: 60 * 60, // 60 minutes
 	},
 	callbacks: {
 		signIn() {

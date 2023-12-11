@@ -20,7 +20,7 @@ const useChatStore = create<ChatStore>(set => ({
 	prompt: 'Loading...',
 	choices: [],
 	helpText: 'Click anything or type in the chatbox.',
-	isMuted: true,
+	isMuted: false,
 	voice: undefined,
 	actions: {
 		setPrompt: prompt => set({ prompt }),
