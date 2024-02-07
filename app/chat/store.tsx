@@ -26,7 +26,7 @@ const useChatStore = create<ChatStore>(set => ({
 		setPrompt: prompt => set({ prompt }),
 		setChoices: choices => set({ choices }),
 		setHelpText: helpText => set({ helpText }),
-		setVoice: voice => set({ voice }),
+		setVoice: voice => set({ voice: voice ? `http://ccscloud.dlsu.edu.ph:11400/${voice}` : undefined }),
 		toggleMute: () => set(state => ({ isMuted: !state.isMuted })),
 	},
 }))
