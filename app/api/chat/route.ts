@@ -55,9 +55,9 @@ export async function POST(req: NextRequest) {
 	text = text.toLowerCase()
 
 	// if setting the language
-	if (text === 'english') {
+	if (text === 'english' || text === 'cebuano') {
 		ckies.set('lang', text, { secure: true })
-	} else if (text === 'tagalog' || text === 'cebuano') {
+	} else if (text === 'tagalog') {
 		ckies.set('lang', 'filipino', { secure: true })
 	}
 
