@@ -41,3 +41,5 @@ yarn-error.log*
 
 app.log
 /data
+
+init-letsencrypt.sh
