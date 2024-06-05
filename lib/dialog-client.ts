@@ -1,3 +1,4 @@
+//Imports the Google Cloud Some API library (https://googleapis.dev/nodejs/dialogflow-cx/latest/index.html)
 import { SessionsClient } from '@google-cloud/dialogflow-cx'
 import { structProtoToJson } from './dialog-struct-parser'
 import { google } from '@google-cloud/dialogflow-cx/build/protos/protos'

@@ -1,4 +1,23 @@
+/*
+	store.tsx
+	> Ito ung file kung saan nakalagay lahat ng mga pinipili ng user sa UI.
+
+*/
+
+// LIBRARY IMPORTS
+
+/*
+	Library function from DialogflowCX
+	- Choice: contains the 2 fields: title and payload (Used for DialogflowCX, too complicated to understand on how to use it)
+		- Payload > Ito ung kung ano ung nilagay ng user sa chat bubble, ito ung gagamitin para malaman kung ano isasagot ngokth
+		- Title > Ito ung gagamitin para idisplay ung pinili na button ng user sa button value.
+*/
 import { Choice } from '@/lib/dialog-client'
+
+/*
+	Function from a library (https://zustand-demo.pmnd.rs/)
+	- create: used to create 
+*/
 import { create } from 'zustand'
 
 type ChatStore = {
