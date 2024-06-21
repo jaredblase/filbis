@@ -36,25 +36,25 @@ export default async function ChatPage() {
 
 	return (
 		<>
-			<div className="absolute top-0 -z-10 max-h-96 w-full">
+			<div className="bg-blue-800 absolute top-0 -z-10 h-screen max-h-96 w-full">
+
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
 					viewBox="0 0 1280 348"
-					className="max-h-[inherit] w-full"
+					className="bg-blue-800 h-screen w-full"
 				>
 					<path
-						d="M-0.239255 82.5L0 -1L1281.5 -0.5V237C1260.5 86.5 671 133.5 -0.239255 82.5Z"
-						fill="#408B51"
+						d="M 0 45 L 0 0 L 1281.5 -0.5 v 49.5 C 614 -58 766 119 0 45 Z"
+						fill="#5E99F7"
+						//fill="#1D4FD7"
 					/>
-					<path
-						d="M657 -0.74366C419 42.0152 146.5 170.5 -1 348L0 -1L657 -0.74366Z"
-						fill="#2C6839"
-					/>
+					
 				</svg>
+			
 			</div>
 			<MenuBar src={image} />
-			<section className="pt-16">
+			<section className="">
 				<div className="grid w-full gap-40 md:container max-md:px-2">
 					<PromptMessage
 						className="max-w-prose text-center text-2xl/snug font-medium text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
@@ -62,7 +62,7 @@ export default async function ChatPage() {
 						voice={voice}
 					/>
 
-					<div className="w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
+					<div className="bg-blue-600 w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
 						<div className="relative mx-auto grid w-full max-w-sm gap-y-8 rounded-3xl py-14">
 							<FilbisUpAvatar className="absolute -top-36 left-[50%] -z-10 w-48  -translate-x-[50%]" />
 							<ChatForm choices={choices} />

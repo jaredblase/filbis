@@ -221,7 +221,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 								<button
 									key={choice.payload}
 									type="button"
-									className="btn btn-primary w-full"
+									className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full btn w-full"
 									value={choice.payload}
 									onClick={handleChoiceClick}
 								>
