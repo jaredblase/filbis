@@ -24,13 +24,13 @@ export function MobileMenuBar({ src, children, ...props }: MobileMenuBarProps) {
 	return (
 		<Popover>
 			<PopoverTrigger {...props}>
-				<Avatar className="w-16 cursor-pointer transition-transform hover:scale-105 active:scale-100">
+				<Avatar className="w-16 cursor-pointer transition-transform hover:scale-110 active:scale-100 border-2 border-white">
 					<AvatarImage src={src ?? undefined} />
 					<AvatarFallback>Profile Picture</AvatarFallback>
 				</Avatar>
 			</PopoverTrigger>
 			<PopoverContent
-				className="w-16 rounded-full border-none bg-primary-400 px-3 shadow-lg"
+				className="bg-blue-500 hover:bg-blue-600 w-16 rounded-full border-2 px-3 shadow-xl"
 				hideWhenDetached
 			>
 				<menu className="grid gap-y-2 [&_*]:aspect-square">

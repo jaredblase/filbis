@@ -67,14 +67,15 @@ export function MenuBar({ src }: MenuBarProps) {
 				{menuButtons}
 				<Popover>
 					<PopoverTrigger>
-						<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
+						<Avatar className="cursor-pointer transition-transform hover:scale-110 active:scale-100 border-2 border-white">
 							<AvatarImage src={src ?? undefined} />
 							<AvatarFallback>Profile Picture</AvatarFallback>
 						</Avatar>
 					</PopoverTrigger>
 					<PopoverContent hideWhenDetached>
 						<button
-							className="btn btn-primary w-full"
+							className = "bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full btn w-full"
+							//className="btn btn-primary w-full"
 							onClick={() => signOut({ callbackUrl: '/' })}
 						>
 							Logout
