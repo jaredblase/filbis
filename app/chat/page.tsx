@@ -5,7 +5,8 @@ import { ChatForm } from './chat-form'
 import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import { PromptMessage } from './prompt-message'
 import { cookies } from 'next/headers'
-import { FilbisUpAvatar } from '@/components/Filbis-up'
+//import { FilbisUpAvatar } from '@/components/Filbis-up'
+import { FilbisAvatar } from '@/components/Filbis'
 
 async function getData() {
 	const session = await auth()
@@ -36,7 +37,7 @@ export default async function ChatPage() {
 
 	return (
 		<>
-			<div className="bg-blue-800 absolute top-0 -z-10 h-screen max-h-96 w-full">
+			<div className="bg-blue-800 absolute top-0 -z-10 min-h-screen max-h-96 w-full">
 
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -54,20 +55,37 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<section className="">
-				<div className="grid w-full gap-40 md:container max-md:px-2">
-					<PromptMessage
-						className="max-w-prose text-center text-2xl/snug font-medium text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
-						prompt={prompt}
-						voice={voice}
-					/>
+			<section className="flex items-center justify-cetner min-h-[85vh] w-full p-4">
+				<div className="grid w-full md:container max-md:px-2">
 
-					<div className="bg-blue-600 w-full max-w-screen-sm justify-self-center rounded-3xl bg-[#7CC089]">
-						<div className="relative mx-auto grid w-full max-w-sm gap-y-8 rounded-3xl py-14">
-							<FilbisUpAvatar className="absolute -top-36 left-[50%] -z-10 w-48  -translate-x-[50%]" />
-							<ChatForm choices={choices} />
+					<FilbisAvatar 
+						className="absolute 
+							lg:left-40 lg:top-64
+							xl:left-64 -z-10 
+							hidden 
+							lg:block lg:w-1/3 
+							xl:block xl:w-1/3
+							md:hidden sm:hidden xs:hidden"
+					/>
+					
+					<div className="xl:justify-self-end lg:justify-self-end rounded-3xl">
+						<div className = "mx-auto w-full max-w-xs flex xl:justify-end lg:justify-end">
+							<div className="grid w-full max-w-xs gap-y-8 rounded-3xl py-14 ">
+								<ChatForm choices={choices} />
+							</div>
 						</div>
 					</div>
+					
+					<div className="bg-blue-500/80 w-full max-w-screen-xl justify-self-center rounded-3xl p-[18px]">
+						<p className="p-4 text-yellow-300 text-max-w-prose text-center text-2xl/snug font-bold text-secondary-100 sm:text-3xl/snug md:text-4xl/normal" > FilBis </p>
+						<hr></hr>
+						<PromptMessage
+							className="p-4 max-w-prose text-center text-2xl/snug font-normal text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
+							prompt={prompt}
+							voice={voice}
+						/>
+					</div>
+
 				</div>
 			</section>
 		</>

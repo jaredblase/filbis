@@ -14,16 +14,12 @@ export default async function HomePage() {
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
-					viewBox="0 0 1280 832"
+					viewBox="0 0 1280 348"
 					className="bg-blue-800 h-screen w-full"
 				>
 					<path
-						d="M 0 0 H 1280 V 59 C 1280 59 144 480 0 141 Z"
+						d="M 0 45 L 0 0 L 1281.5 -0.5 v 49.5 C 614 -58 766 119 0 45 Z"
 						fill="#5E99F7"
-					/>
-					<path
-						d="M0 832H675.5C399.73 774.766 30.365 676.747 0 384C0 558.955 0 832 0 832Z"
-						fill="#1D4FD7"
 					/>
 				</svg>
 			</div>
