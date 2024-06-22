@@ -208,9 +208,9 @@ export function ChatForm({ choices }: ChatFormProps) {
 	// This is the UI of the whole green square chat box (ito ung kasama ung choices at chat box)
 	return (
 		<>
-			<p className="text-center text-xl font-medium text-secondary-100">
+			{/*<p className="text-center text-xl font-medium text-secondary-100">
 				{helpText}
-			</p>
+			</p>*/}
 			<form onSubmit={handleSubmit} ref={form}>
 				<fieldset disabled={loading.submitting}>
 					{loading.delayed ? (

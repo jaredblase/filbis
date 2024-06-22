@@ -57,12 +57,12 @@ export default function HomeLayout({
 					crossOrigin="anonymous"
 				></script>
 			</head>
-			<body className="bg-[#337641]">
+			<body className="bg-blue-800">
 				<header className="container flex flex-wrap items-center justify-between py-4 pt-7">
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="grid min-h-[calc(100vh-157px)] items-center">
+				<main className="grid items-center">
 					{children}
 				</main>
 			</body>
