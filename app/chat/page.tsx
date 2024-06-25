@@ -60,10 +60,10 @@ export default async function ChatPage() {
 
 					<div className="rounded-3xl w-full">
 						<div className="flex w-full">
-							<FilbisAvatar className="relative flex justify-self-start w-[30vw] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
+							<FilbisAvatar className="relative flex justify-self-start w-[30vw] -z-10 xl:block lg:block md:block sm:hidden xs:hidden"/>
 
-							<div className = "relative mx-auto w-full flex">
-								<div className="relative flex ml-auto grid w-full max-w-xs gap-y-8 rounded-3xl pb-4">
+							<div className = "relative w-full justify-center flex">
+								<div className="relative flex ml-auto w-full xl:justify-end lg:justify-end md:justify-end sm:justify-center xs:justify-center gap-y-8 rounded-3xl pb-4 ">
 									<ChatForm choices={choices} />
 								</div>
 							</div>
@@ -72,10 +72,10 @@ export default async function ChatPage() {
 					</div>
 					
 					<div className="bg-blue-500 w-full max-w-[70vw] justify-self-center rounded-3xl p-4">
-						<p className="p-4 text-yellow-300 text-max-w-prose text-center font-bold xl:text-4xl lg:text-2xl md:text-xl sm:text-3xl/snug " > FilBis </p>
+						<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p>
 						<hr></hr>
 						<PromptMessage
-							className="p-4 max-w-prose text-center font-normal text-secondary-100 xl:text-3xl lg:text-xl md:text-xl sm:text-xl "
+							className="p-4 max-w-prose text-center font-bold text-secondary-100 xl:text-3xl lg:text-xl md:text-xl sm:text-xl "
 							prompt={prompt}
 							voice={voice}
 						/>
