@@ -76,12 +76,12 @@
 		}
 
 		&:disabled .icon {
-			@apply hover:fill-white active:fill-white;
+			@apply hover:bg-[#e26b3f] rounded-lg;
 		}
 	}
 
 	.icon {
-		@apply fill-white transition-colors hover:fill-slate-200 active:fill-slate-300;
+		@apply fill-white transition-colors hover:bg-[#e26b3f] rounded-lg;
 	}
 
 	.scrollbar,
@@ -94,4 +94,12 @@
 	.container-block {
 		container-type: size;
 	}
+}
+
+.text-shadow-white {
+  text-shadow: 
+    1px 1px 0 #fff, 
+    -1px -1px 0 #fff, 
+    1px -1px 0 #fff, 
+    -1px 1px 0 #fff;
 }

@@ -30,13 +30,13 @@ export function MobileMenuBar({ src, children, ...props }: MobileMenuBarProps) {
 				</Avatar>
 			</PopoverTrigger>
 			<PopoverContent
-				className="bg-blue-500 hover:bg-blue-600 w-16 rounded-full border-2 px-3 shadow-xl"
+				className="bg-[#e26b3f] hover:bg-[#cf4412] w-16 rounded-full border-2 px-3 shadow-xl"
 				hideWhenDetached
 			>
-				<menu className="grid gap-y-2 [&_*]:aspect-square">
+				<menu className="grid gap-y-2 [&_*]:aspect-square ">
 					{children}
 					<button onClick={() => signOut({ callbackUrl: '/' })}>
-						<SignOut className="icon" />
+						<SignOut className="icon hover:bg-[#e26b3f] rounded-lg" />
 					</button>
 				</menu>
 			</PopoverContent>

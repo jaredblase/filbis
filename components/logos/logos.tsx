@@ -4,13 +4,13 @@ import dostSeal from '@/public/assets/dost-seal.svg'
 
 export function Logos() {
 	return (
-		<div className="relative flex gap-x-2 md:gap-x-6 md:items-center">
-			<Image src={dlsuLogo} alt="DLSU Logo" className="w-[6vw] " priority />
-			<Image src={dostSeal} alt="DOST Seal" className="w-[6vw]" />
-			<p className="container-block flex h-[9vh] items-center font-shrikhand text-secondary-100">
+		<div className="relative flex gap-x-2 md:gap-x-6 md:items-center sm:items-center xs:items-center">
+			<Image src={dlsuLogo} alt="DLSU Logo" className="sm:w-[80px] xs:w-[20px]" priority />
+			<Image src={dostSeal} alt="DOST Seal" className="sm:w-[80px] xs:w-[20px]" />
+			<p className="container-block flex sm:h-[80px] xs:h-[60px] items-center font-shrikhand text-secondary-100">
 				<span className="text-[46cqh]">Fil</span>
 				<span className="ml-2 block aspect-square rounded-full bg-secondary-100 p-[6cqh]">
-					<span className="inline-flex aspect-square items-center rounded-full bg-blue-600 p-[6cqh] text-[46cqh]">
+					<span className="inline-flex aspect-square items-center rounded-full bg-[#ED7042] p-[6cqh] text-[46cqh]">
 						bis
 					</span>
 				</span>

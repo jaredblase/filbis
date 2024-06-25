@@ -74,7 +74,7 @@ export function MenuBar({ src }: MenuBarProps) {
 					</PopoverTrigger>
 					<PopoverContent hideWhenDetached>
 						<button
-							className = "bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded-full btn w-full"
+							className = "bg-[#e26b3f] hover:bg-[#cf4412] text-white py-2 px-4 border-b-4 border-white hover:border-white rounded-full btn w-[10vw]"
 							//className="btn btn-primary w-full"
 							onClick={() => signOut({ callbackUrl: '/' })}
 						>
