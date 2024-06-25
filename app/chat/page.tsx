@@ -55,24 +55,27 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<section className="flex items-center justify-center min-h-[82vh] w-full">
+			<section className="relative flex items-center justify-center min-h-[80vh] min-w-[70vw]">
 				<div className="relative grid w-full md:container max-md:px-2">
 
-					<FilbisAvatar className="absolute xl:left-12 xl:top-20 xl:block xl:w-1/3 lg:block lg:left-12 lg:top-36 lg:w-1/3 -z-10 hidden md:hidden sm:hidden xs:hidden"/>
+					<div className="rounded-3xl w-full">
+						<div className="flex w-full">
+							<FilbisAvatar className="relative flex justify-self-start w-[30vw] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
 
-					<div className="xl:justify-self-end lg:justify-self-end rounded-3xl">
-						<div className = "mx-auto w-full max-w-xs flex xl:justify-end lg:justify-end">
-							<div className="grid w-full max-w-xs gap-y-8 rounded-3xl py-14 ">
-								<ChatForm choices={choices} />
+							<div className = "relative mx-auto w-full flex">
+								<div className="relative flex ml-auto grid w-full max-w-xs gap-y-8 rounded-3xl pb-4">
+									<ChatForm choices={choices} />
+								</div>
 							</div>
+
 						</div>
 					</div>
 					
-					<div className="bg-blue-500 w-full max-w-screen-xl justify-self-center rounded-3xl p-[18px]">
-						<p className="p-4 text-yellow-300 text-max-w-prose text-center text-2xl/snug font-bold text-secondary-100 sm:text-3xl/snug md:text-4xl/normal" > FilBis </p>
+					<div className="bg-blue-500 w-full max-w-[70vw] justify-self-center rounded-3xl p-4">
+						<p className="p-4 text-yellow-300 text-max-w-prose text-center font-bold xl:text-4xl lg:text-2xl md:text-xl sm:text-3xl/snug " > FilBis </p>
 						<hr></hr>
 						<PromptMessage
-							className="p-4 max-w-prose text-center text-2xl/snug font-normal text-secondary-100 sm:text-3xl/snug md:text-4xl/normal"
+							className="p-4 max-w-prose text-center font-normal text-secondary-100 xl:text-3xl lg:text-xl md:text-xl sm:text-xl "
 							prompt={prompt}
 							voice={voice}
 						/>
