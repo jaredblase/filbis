@@ -62,7 +62,7 @@ export default function HomeLayout({
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="grid items-center">
+				<main className="grid items-center justify-center max-h-[100vh]">
 					{children}
 				</main>
 			</body>

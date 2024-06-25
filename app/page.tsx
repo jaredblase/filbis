@@ -23,8 +23,8 @@ export default async function HomePage() {
 					/>
 				</svg>
 			</div>
-			<div className="flex items-center justify-center min-h-screen">
-				<div className="relative text-secondary-100 w-full text-center bottom-[14vh]">
+			<div className="flex items-center justify-center min-h-[80vh]">
+				<div className="relative text-secondary-100 w-full text-center">
 					{/* <div className="mx-auto mb-6 w-fit rounded-3xl bg-primary-400 px-10 py-5">
 						<p className="text-center font-shrikhand text-3xl">Welcome back!</p>
 					</div> */}
