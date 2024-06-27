@@ -216,12 +216,12 @@ export function ChatForm({ choices }: ChatFormProps) {
 					{loading.delayed ? (
 						<Spinner className="mx-auto" />
 					) : (
-						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto text-xl scrollbar-thin max-sm:px-2">
+						<div className="w-[65vw] mb-4 flex max-h-72 xl:flex-row xl:gap-x-10 lg:flex-row lg:gap-x-10 md:flex-col md:gap-y-3 sm:flex-col sm:gap-y-3 xs:flex-col xs:gap-y-3 overflow-y-auto text-xl scrollbar-thin max-sm:px-2">
 							{storedChoices.map(choice => (
 								<button
 									key={choice.payload}
 									type="button"
-									className="bg-[#e26b3f] hover:bg-[#cf4412] text-white py-2 px-4 border-b-4 border-white hover:border-white rounded-full btn w-full"
+									className="bg-[#e26b3f] hover:bg-[#d85424] text-white py-2 px-20 border-b-4 border-white hover:border-white rounded-full btn w-full"
 									value={choice.payload}
 									onClick={handleChoiceClick}
 								>
@@ -231,7 +231,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 						</div>
 					)}
 
-					<div className="flex w-full items-center gap-x-2 max-sm:px-2">
+					<div className="flex w-[65vw] items-center gap-x-2 max-sm:px-2">
 						<div className="relative flex-1">
 							<input
 								type="text"
