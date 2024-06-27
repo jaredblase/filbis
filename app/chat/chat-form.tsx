@@ -216,7 +216,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 					{loading.delayed ? (
 						<Spinner className="mx-auto" />
 					) : (
-						<div className="w-[65vw] mb-4 flex max-h-72 xl:flex-row xl:gap-x-10 lg:flex-row lg:gap-x-10 md:flex-col md:gap-y-3 sm:flex-col sm:gap-y-3 xs:flex-col xs:gap-y-3 overflow-y-auto overflow-x-auto text-xl scrollbar-thin max-sm:px-2">
+						<div className="w-[65vw] mb-4 flex max-h-72 xl:flex-row xl:gap-x-10 lg:flex-row lg:gap-x-10 md:flex-col md:gap-y-3 sm:flex-col sm:gap-y-3 xs:flex-col xs:gap-y-3 overflow-y-scroll overflow-x-scroll scroll scroll-smooth first-letter:text-xl max-sm:px-2">
 							{storedChoices.map(choice => (
 								<button
 									key={choice.payload}
