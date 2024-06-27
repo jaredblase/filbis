@@ -55,32 +55,35 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<section className="relative flex items-center justify-center min-h-[80vh] min-w-[70vw]">
-				<div className="relative grid w-full md:container max-md:px-2">
+			<section className="relative flex items-center justify-center max-w-full max-h-full mt-[10vh]">
+				<div className="relative grid w-full md:container max-md:px-10">
 
 					<div className="rounded-3xl w-full">
 						<div className="flex w-full">
-							<FilbisAvatar className="relative flex justify-self-start w-[30vw] -z-10 xl:block lg:block md:block sm:hidden xs:hidden"/>
+							<FilbisAvatar className="relative flex justify-self-start max-w-[15vw] -z-10 xl:block lg:block md:block sm:hidden xs:hidden"/>
 
-							<div className = "relative w-full justify-center flex">
-								<div className="relative flex ml-auto w-full xl:justify-end lg:justify-end md:justify-end sm:justify-center xs:justify-center gap-y-8 rounded-3xl pb-4 ">
-									<ChatForm choices={choices} />
+							<div className="bg-blue-500 xl:ml-16 lg:ml-16 flex items-center justify-center rounded-3xl p-4 w-full ">
+								{/*<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p> */}
+								{/*<hr></hr>*/}
+								<div className="flex items-center justify-center w-full">
+									<PromptMessage
+										className="p-4 flex text-center items-center justify-center font-bold text-secondary-100 xl:text-4xl lg:text-4xl md:text-3xl sm:text-3xl xs:text-2xl "
+										prompt={prompt}
+										voice={voice}
+									/>
 								</div>
+								
 							</div>
 
 						</div>
 					</div>
-					
-					<div className="bg-blue-500 w-full max-w-[70vw] justify-self-center rounded-3xl p-4">
-						<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p>
-						<hr></hr>
-						<PromptMessage
-							className="p-4 max-w-prose text-center font-bold text-secondary-100 xl:text-3xl lg:text-xl md:text-xl sm:text-xl "
-							prompt={prompt}
-							voice={voice}
-						/>
-					</div>
 
+					<div className = "relative w-full justify-center flex mt-[40px]">
+						<div className="relative flex xl:justify-center lg:justify-center md:justify-center sm:justify-center xs:justify-center gap-y-8 rounded-3xl pb-4 ">
+							<ChatForm choices={choices} />
+						</div>
+					</div>
+					
 				</div>
 			</section>
 		</>
