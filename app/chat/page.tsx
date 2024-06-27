@@ -60,7 +60,7 @@ export default async function ChatPage() {
 
 					<div className="rounded-3xl w-full">
 						<div className="flex w-full">
-							<FilbisAvatar className="relative flex justify-self-start max-w-[15vw] -z-10 xl:block lg:block md:block sm:hidden xs:hidden"/>
+							<FilbisAvatar className="relative flex justify-self-start max-w-[15vw] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
 
 							<div className="bg-blue-500 xl:ml-16 lg:ml-16 flex items-center justify-center rounded-3xl p-4 w-full ">
 								{/*<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p> */}
