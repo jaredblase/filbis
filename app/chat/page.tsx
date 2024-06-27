@@ -55,7 +55,7 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<section className="relative flex items-center justify-center max-w-full max-h-full mt-[10vh]">
+			<section className="relative flex items-center justify-center max-w-full max-h-full mt-[15vh]">
 				<div className="relative grid w-full md:container max-md:px-10">
 
 					<div className="rounded-3xl w-full">
