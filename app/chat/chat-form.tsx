@@ -92,7 +92,6 @@ type ChatFormProps = {
 	choices: Array<Choice>
 }
 
-
 // Ito na ung buong pag process ung user input papunta sa Dialogflow CX
 // This returns ChatFormProps (Title and Payload)
 export function ChatForm({ choices }: ChatFormProps) {
@@ -195,7 +194,6 @@ export function ChatForm({ choices }: ChatFormProps) {
 		start()
 	}
 
-
 	/*
 		Kapag may pinili sa choices si user, un ung gagamitin for the requestSubmit() function.
 	*/
@@ -211,27 +209,42 @@ export function ChatForm({ choices }: ChatFormProps) {
 			{/*<p className="text-center text-xl font-medium text-secondary-100">
 				{helpText}
 			</p>*/}
-			<form onSubmit={handleSubmit} ref={form}>
-				<fieldset disabled={loading.submitting}>
+			<form className="w-full h-full " onSubmit={handleSubmit} ref={form}>
+					<fieldset disabled={loading.submitting}>
 					{loading.delayed ? (
-						<Spinner className="mx-auto" />
+					<Spinner className="mx-auto" />
 					) : (
-						<div className="max-w-[65vw] max-h-[20vh] mb-4 flex xl:flex-row xl:gap-x-10 lg:flex-row lg:gap-x-10 md:flex-col md:gap-y-3 sm:flex-col sm:gap-y-3 xs:flex-col xs:gap-y-3 overflow-y-scroll overflow-x-scroll scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
+					<>
+						{storedChoices.length > 0 && (
+						<div className="flex justify-center h-[30vh] flex-wrap xl:flex-col xl:gap-y-3 lg:flex-col lg:gap-y-3 md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
 							{storedChoices.map(choice => (
-								<button
-									key={choice.payload}
-									type="button"
-									className="bg-[#e26b3f] hover:bg-[#d85424] text-white py-2 px-20 border-b-4 border-white hover:border-white rounded-full btn w-full xl:text-xl lg:text-xl md:text-xl sm:text-xl xs:text-xs"
-									value={choice.payload}
-									onClick={handleChoiceClick}
-								>
-									{choice.title}
-								</button>
+							<button
+								key={choice.payload}
+								type="button"
+								className="bg-[#e26b3f] hover:bg-[#d85424] text-white border-b-4 border-white hover:border-white rounded-full btn xl:text-xl lg:text-lg md:text-md sm:text-sm xs:text-xs"
+								value={choice.payload}
+								onClick={handleChoiceClick}
+							>
+								{choice.title}
+							</button>
 							))}
 						</div>
+						)}
+					</>
 					)}
-
-					<div className="flex w-[65vw] items-center gap-x-2 max-sm:px-2">
+				</fieldset>
+				
+				<input
+					type="text"
+					className="hidden"
+					placeholder="Type anything here!"
+					name="text"
+					ref={input}
+				/>
+			</form>
+			
+			<form className="w-full h-full " onSubmit={handleSubmit} ref={form}>
+				<div className="flex w-full items-center gap-x-2 max-sm:px-2">
 						<div className="relative flex-1">
 							<input
 								type="text"
@@ -241,7 +254,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 								ref={input}
 							/>
 							<button
-								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
+								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
 									isRecording ? 'btn-primary animate-pulse' : ''
 								}`}
 								type="button"
@@ -250,12 +263,12 @@ export function ChatForm({ choices }: ChatFormProps) {
 								<Microphone className="icon" />
 							</button>
 						</div>
-						<button className="btn w-10 p-0">
-							<PaperPlaneRight className="icon" />
-						</button>
-					</div>
-				</fieldset>
+					<button className="btn w-10 p-0">
+						<PaperPlaneRight className="icon" />
+					</button>
+				</div>
 			</form>
+
 		</>
 	)
 }
