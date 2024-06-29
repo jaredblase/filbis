@@ -101,7 +101,6 @@ export function ChatForm({ choices }: ChatFormProps) {
 	const loading = useLoading()
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
-	const helpText = useHelpText()
 
 	// useEffect is a React Hook that lets you synchronize a component with an external system. (https://react.dev/reference/react/useEffect)
 	// Put choices(title and payload) all inside setChoices and run it only once because of "[]"
@@ -181,20 +180,6 @@ export function ChatForm({ choices }: ChatFormProps) {
 	}
 
 	/*
-		If person uses Speech Recognition (Cinlick ung mic sa chat box) and NAG RERECORD CURRENTLY ung voice, stop recording after i-click ulit.
-	*/
-	async function handleMicClick() {
-		// Mic is CURRENTLY recording
-		if (isRecording) {
-			// Stop mic to listen
-			return stop().then(() => form.current?.requestSubmit())
-		}
-		
-		// If not recording, start voice recording
-		start()
-	}
-
-	/*
 		Kapag may pinili sa choices si user, un ung gagamitin for the requestSubmit() function.
 	*/
 	const handleChoiceClick: MouseEventHandler = e => {
@@ -209,67 +194,46 @@ export function ChatForm({ choices }: ChatFormProps) {
 			{/*<p className="text-center text-xl font-medium text-secondary-100">
 				{helpText}
 			</p>*/}
-			<form className="w-full h-full " onSubmit={handleSubmit} ref={form}>
-					<fieldset disabled={loading.submitting}>
-					{loading.delayed ? (
-					<Spinner className="mx-auto" />
-					) : (
-					<>
-						{storedChoices.length > 0 && (
-						<div className="flex h-[30vh] xl:flex-wrap xl:flex-col xl:gap-y-3 lg:flex-wrap lg:flex-col lg:gap-y-3 md:flex-wrap md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 xs:flex-nowrap overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
-							{storedChoices.map(choice => (
-							<button
-								key={choice.payload}
-								type="button"
-								className="bg-[#e26b3f] hover:bg-[#d85424] text-white border-b-4 border-white hover:border-white rounded-full btn xl:text-xl lg:text-lg md:text-md sm:text-sm xs:text-xs"
-								value={choice.payload}
-								onClick={handleChoiceClick}
-							>
-								{choice.title}
-							</button>
-							))}
-						</div>
-						)}
-					</>
-					)}
-				</fieldset>
-				
-				<input
-					type="text"
-					className="hidden"
-					placeholder="Type anything here!"
-					name="text"
-					ref={input}
-				/>
-			</form>
+			{storedChoices.length > 0 && (
+				<div className = "relative w-full h-[30vh] justify-center items-center flex flex-col mt-5">	
+					<div className="min-w-full h-full relative flex flex-col justify-center gap-y-6 rounded-3xl ">
+						<form className="relative w-full h-full" onSubmit={handleSubmit} ref={form}>
+								<fieldset className="relative w-full h-full" disabled={loading.submitting}>
+								{loading.delayed ? (
+								<Spinner className="mx-auto" />
+								) : (
+								<>
+									{storedChoices.length > 0 && (
+											<div className="relative flex h-full w-full xl:flex-wrap xl:flex-col xl:gap-y-3 lg:flex-wrap lg:flex-col lg:gap-y-3 md:flex-wrap md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 xs:flex-nowrap overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
+												{storedChoices.map(choice => (
+												<button
+													key={choice.payload}
+													type="button"
+													className="relative bg-[#e26b3f] hover:bg-[#d85424] text-white border-b-4 border-white hover:border-white rounded-full btn xl:text-md lg:text-lg md:text-md sm:text-sm xs:text-xs"
+													value={choice.payload}
+													onClick={handleChoiceClick}
+												>
+													{choice.title}
+												</button>
+												))}
 
-			<hr className="border-t-4 border-gray-300 rounded-full"></hr>
-			
-			<form className="w-full h-full " onSubmit={handleSubmit} ref={form}>
-				<div className="flex w-full items-center gap-x-2 max-sm:px-2">
-						<div className="relative flex-1">
+									</div>
+									)}
+								</>
+								)}
+							</fieldset>
+							
 							<input
 								type="text"
-								className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
+								className="hidden"
 								placeholder="Type anything here!"
 								name="text"
 								ref={input}
 							/>
-							<button
-								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
-									isRecording ? 'btn-primary animate-pulse' : ''
-								}`}
-								type="button"
-								onClick={handleMicClick}
-							>
-								<Microphone className="icon" />
-							</button>
-						</div>
-					<button className="btn w-10 p-0">
-						<PaperPlaneRight className="icon" />
-					</button>
+						</form>
+					</div>
 				</div>
-			</form>
+			)}
 
 		</>
 	)
