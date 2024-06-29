@@ -56,7 +56,7 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<div className="relative flex items-center justify-center w-full h-full xl:mt-20 lg:mt-20 md:mt-20 ">
+			<div className="relative flex items-center justify-center w-full h-full mt-[7vh] ">
 				<div className="relative flex flex-col w-[80vw] h-full items-center justify-center"> 
 					<div className=" flex items-center justify-center relative w-full sm:h-sm xs:h-xs">
 							<FilbisAvatar className="relative flex justify-self-start w-[20vw] h-[20vh] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
