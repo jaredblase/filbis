@@ -7,6 +7,7 @@ import { PromptMessage } from './prompt-message'
 import { cookies } from 'next/headers'
 //import { FilbisUpAvatar } from '@/components/Filbis-up'
 import { FilbisAvatar } from '@/components/Filbis'
+import { SpeechToText } from './speech-to-text'
 
 async function getData() {
 	const session = await auth()
@@ -56,30 +57,31 @@ export default async function ChatPage() {
 			</div>
 			<MenuBar src={image} />
 			<div className="relative flex items-center justify-center w-full h-full xl:mt-20 lg:mt-20 md:mt-20 ">
-				<div className="relative flex flex-col w-[70vw] items-center justify-center"> 
-					<div className="relative w-full ">
-						<div className="flex w-full">
+				<div className="relative flex flex-col w-[80vw] h-full items-center justify-center"> 
+					<div className=" flex items-center justify-center relative w-full sm:h-sm xs:h-xs">
 							<FilbisAvatar className="relative flex justify-self-start w-[20vw] h-[20vh] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
-							<div className="bg-blue-500 xl:ml-16 lg:ml-16 flex items-center justify-center rounded-3xl p-4 w-full  ">
-								{/*<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p> */}
-								{/*<hr></hr>*/}
-								<div className="flex items-center justify-center w-full">
-									<PromptMessage
-										className="p-4 flex text-center items-center justify-center font-bold text-secondary-100 xl:text-4xl lg:text-4xl md:text-3xl sm:text-3xl xs:text-2xl "
-										prompt={prompt}
-										voice={voice}
-									/>
+							<div className="xl:ml-16 lg:ml-16 w-full h-full"> 
+								<div className="bg-blue-500 rounded-3xl p-4 w-full h-full">
+									{/*<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p> */}
+									{/*<hr></hr>*/}
+									<div className="flex items-center justify-center w-full h-full">
+										<PromptMessage
+											className="p-4 flex text-center items-center justify-center font-bold text-secondary-100 xl:text-4xl lg:text-4xl md:text-3xl sm:text-sm xs:text-xs "
+											prompt={prompt}
+											voice={voice}
+										/>
+									</div>
 								</div>
-								
 							</div>
-						</div>
 					</div>
 
-					<div className = "relative w-full h-fit justify-center items-center flex mt-6 mb-6">	
-						<div className="min-w-full h-full relative flex flex-col justify-center gap-y-6 rounded-3xl ">
-							<ChatForm choices={choices} />
-						</div>
+					<ChatForm choices={choices} />
+
+					<div className = "relative w-full mt-5">
+						<hr className="relative border-t-4 border-gray-300 rounded-full w-full"></hr>
+						<SpeechToText />
 					</div>
+
 					
 				</div>
 			</div>
