@@ -55,8 +55,8 @@ export default async function ChatPage() {
 			
 			</div>
 			<MenuBar src={image} />
-			<div className="relative flex items-center justify-center w-full h-full">
-				<div className="relative flex flex-col w-[70vw] h-full items-center justify-center"> 
+			<div className="relative flex items-center justify-center w-full h-full xl:mt-20 lg:mt-20 md:mt-20 ">
+				<div className="relative flex flex-col w-[70vw] items-center justify-center"> 
 					<div className="relative w-full ">
 						<div className="flex w-full">
 							<FilbisAvatar className="relative flex justify-self-start w-[20vw] h-[20vh] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
@@ -76,7 +76,7 @@ export default async function ChatPage() {
 					</div>
 
 					<div className = "relative w-full h-fit justify-center items-center flex mt-6 mb-6">	
-						<div className="min-w-full h-full relative flex flex-col justify-center gap-y-8 rounded-3xl ">
+						<div className="min-w-full h-full relative flex flex-col justify-center gap-y-6 rounded-3xl ">
 							<ChatForm choices={choices} />
 						</div>
 					</div>

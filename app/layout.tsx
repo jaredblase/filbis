@@ -62,7 +62,7 @@ export default function HomeLayout({
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="items-center justify-center h-[80vh] mt-[4vh]">
+				<main className="items-center justify-center mt-[4vh]">
 					{children}
 				</main>
 			</body>

@@ -216,7 +216,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 					) : (
 					<>
 						{storedChoices.length > 0 && (
-						<div className="flex justify-center h-[30vh] flex-wrap xl:flex-col xl:gap-y-3 lg:flex-col lg:gap-y-3 md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
+						<div className="flex h-[30vh] xl:flex-wrap xl:flex-col xl:gap-y-3 lg:flex-wrap lg:flex-col lg:gap-y-3 md:flex-wrap md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 xs:flex-nowrap overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
 							{storedChoices.map(choice => (
 							<button
 								key={choice.payload}
@@ -242,6 +242,8 @@ export function ChatForm({ choices }: ChatFormProps) {
 					ref={input}
 				/>
 			</form>
+
+			<hr className="border-t-4 border-gray-300 rounded-full"></hr>
 			
 			<form className="w-full h-full " onSubmit={handleSubmit} ref={form}>
 				<div className="flex w-full items-center gap-x-2 max-sm:px-2">
