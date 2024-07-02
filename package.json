@@ -27,6 +27,7 @@
 		"next-auth": "^4.24.5",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-speakup": "^1.0.0",
 		"sharp": "^0.32.6",
 		"tailwind-merge": "^1.14.0",
 		"tailwindcss-animate": "^1.0.7",
@@ -61,5 +62,12 @@
 				"retry-request": "^7.0.1"
 			}
 		}
-	}
+	},
+	"description": "Filbis is a Health Chatbot made by DOST and DLSU under the TE3D ADRiC Research House. The name was derived from the term Fil-Bis that means Filipino-Bisaya.",
+	"main": "next.config.js",
+	"directories": {
+		"lib": "lib"
+	},
+	"author": "",
+	"license": "ISC"
 }
