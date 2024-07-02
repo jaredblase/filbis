@@ -9,9 +9,11 @@ import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
 import { useLoading } from '@/lib/use-loader'
 import { Spinner } from '@/components/spinner'
+import { useVoiceToText } from "react-speakup"
 import FormDataAddon from 'wretch/addons/formData'
 
 export function SpeechToText() {
+	const { startListening, stopListening, transcript } = useVoiceToText();
 	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
@@ -83,7 +85,7 @@ export function SpeechToText() {
 		if (isRecording) {
 			return stop().then(() => form.current?.requestSubmit())
 		}
-		
+		// If not recording, start voice recording
 		start()
 	}
 	return (
