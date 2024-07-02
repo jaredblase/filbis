@@ -13,7 +13,8 @@ import { useVoiceToText } from "react-speakup"
 import FormDataAddon from 'wretch/addons/formData'
 
 export function SpeechToText() {
-	const { startListening, stopListening, transcript } = useVoiceToText();
+	var bRecording = false;
+	const { startListening, stopListening, transcript } = useVoiceToText()
 	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
@@ -82,49 +83,49 @@ export function SpeechToText() {
 	}
 
 	async function handleMicClick() {
-		if (isRecording) {
-			return stop().then(() => form.current?.requestSubmit())
+		// Mic is CURRENTLY recording
+		if (bRecording) {
+			// Stop mic to listen
+			bRecording = false;
+			stopListening()
+			
+			return transcript
+			//return stop().then(() => form.current?.requestSubmit())
+		} else {
+			// If not recording, start voice recording
+			// start()
+			bRecording = true;
+			startListening()
 		}
-		// If not recording, start voice recording
-		start()
 	}
 	return (
 		<>
-			{/*((storedChoices.length == 0 && isVoiceMuted == false) || (storedChoices.length > 0 && isVoiceMuted == false))*/}
-			{/*storedChoices.length == 0 &&*/}
-			{ ((storedChoices.length == 0 && isVoiceMuted == false) || (storedChoices.length > 0 && isVoiceMuted == false) || (storedChoices.length == 0)) && (
-				<form className="relative w-full mt-5" onSubmit={handleSpeechToTextSubmit} ref={form}>
-					<hr className="relative border-t-4 border-gray-300 rounded-full w-full mb-9"></hr>
-					<div className="relative flex w-full items-center gap-x-2 max-sm:px-2">
-							<div className="relative flex-1">
-								<input
-									id="free_input"
-									type="text"
-									className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-									placeholder={placeHolderTranslate}
-									name="text"
-									ref={input}
-								/>
-								<IconContext.Provider value={{size: 36}}>
-									<button
-										className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
-											isRecording ? 'btn-primary animate-pulse' : ''
-										}`}
-										type="button"
-										onClick={handleMicClick}
-									>
-										<Microphone className="icon" />
-									</button>
-								</IconContext.Provider>
-							</div>
-						<IconContext.Provider value={{size: 36}}>
-							<button className="btn w-10 p-0">
-								<PaperPlaneRight className="icon" />
+			<form className="relative w-full mt-5" onSubmit={handleSpeechToTextSubmit} ref={form}>
+				<div className="relative flex w-full items-center gap-x-2 max-sm:px-2">
+						<div className="relative flex-1">
+							<input
+								type="text"
+								className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
+								placeholder="Type anything here!"
+								name="text"
+								ref={input}
+								value={transcript}
+							/>
+							<button
+								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
+									isRecording ? 'btn-primary animate-pulse' : ''
+								}`}
+								type="button"
+								onClick={handleMicClick}
+							>
+								<Microphone className="icon" />
 							</button>
-						</IconContext.Provider>
-					</div>
-				</form>
-			)}
+						</div>
+					<button className="btn w-10 p-0">
+						<PaperPlaneRight className="icon" />
+					</button>
+				</div>
+			</form>
 		</>
 	)
 }
