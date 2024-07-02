@@ -13,7 +13,8 @@ import { useVoiceToText } from "react-speakup"
 import FormDataAddon from 'wretch/addons/formData'
 
 export function SpeechToText() {
-	const { startListening, stopListening, transcript } = useVoiceToText();
+	var bRecording = false;
+	const { startListening, stopListening, transcript } = useVoiceToText()
 	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
@@ -97,12 +98,19 @@ export function SpeechToText() {
 	*/
 	async function handleMicClick() {
 		// Mic is CURRENTLY recording
-		if (isRecording) {
+		if (bRecording) {
 			// Stop mic to listen
-			return stop().then(() => form.current?.requestSubmit())
+			bRecording = false;
+			stopListening()
+			
+			return transcript
+			//return stop().then(() => form.current?.requestSubmit())
+		} else {
+			// If not recording, start voice recording
+			// start()
+			bRecording = true;
+			startListening()
 		}
-		// If not recording, start voice recording
-		start()
 	}
 
     // This is the UI of the whole green square chat box (ito ung kasama ung choices at chat box)
@@ -117,6 +125,7 @@ export function SpeechToText() {
 								placeholder="Type anything here!"
 								name="text"
 								ref={input}
+								value={transcript}
 							/>
 							<button
 								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
