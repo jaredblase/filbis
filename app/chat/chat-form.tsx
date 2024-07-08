@@ -16,7 +16,7 @@
 	- PaperPlaneRight: Icon
 	- Microphone: Icon
 */ 
-import { PaperPlaneRight, Microphone } from '@phosphor-icons/react/dist/ssr/index' 
+import { PaperPlaneRight, Microphone, Placeholder } from '@phosphor-icons/react/dist/ssr/index' 
 
 
 /*
@@ -53,7 +53,7 @@ import wretch from 'wretch'
 	- useHelpText: Para magamit ung ('Click anything or type in the chatbox.') na dialog pang display
 
 */
-import { useChatActions, useChoices, useHelpText } from './store'
+import { useChatActions, useChoices, useHelpText, useLanguage } from './store'
 
 
 /*
@@ -95,12 +95,13 @@ type ChatFormProps = {
 // Ito na ung buong pag process ung user input papunta sa Dialogflow CX
 // This returns ChatFormProps (Title and Payload)
 export function ChatForm({ choices }: ChatFormProps) {
-	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
+	const { setPrompt, setChoices, setHelpText, setLanguage, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
 	const loading = useLoading()
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
+	const placeHolderTranslate = useLanguage()
 
 	// useEffect is a React Hook that lets you synchronize a component with an external system. (https://react.dev/reference/react/useEffect)
 	// Put choices(title and payload) all inside setChoices and run it only once because of "[]"
@@ -169,8 +170,15 @@ export function ChatForm({ choices }: ChatFormProps) {
 				if (!res.prompt?.includes('again')) {
 					form.current?.reset()
 				}
+
+				if (res.language == "tagalog"){
+					setLanguage("Mag-type ng kahit ano dito!")
+				} else if ( res.language == "cebuano"){
+					setLanguage("Diri ka musuwat!")
+				} else{
+					setLanguage("Type anything here!")
+				}
 				
-				setHelpText('Click anything or type in the chatbox.') // Ito ung default na text na lalabas sa UI kapag may new choices
 				break
 			}
 		}
@@ -226,7 +234,7 @@ export function ChatForm({ choices }: ChatFormProps) {
 							<input
 								type="text"
 								className="hidden"
-								placeholder="Type anything here!"
+								placeholder= "Type anything here!"
 								name="text"
 								ref={input}
 							/>

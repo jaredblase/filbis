@@ -4,7 +4,7 @@ import { PaperPlaneRight, Microphone } from '@phosphor-icons/react/dist/ssr/inde
 import { redirect } from 'next/navigation'
 import { FormEventHandler, MouseEventHandler, useEffect, useRef } from 'react'
 import wretch from 'wretch'
-import { useChatActions, useChoices, useHelpText } from './store'
+import { useChatActions, useChoices, useHelpText, useLanguage } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
 import { useLoading } from '@/lib/use-loader'
@@ -19,6 +19,7 @@ export function SpeechToText() {
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
 	const helpText = useHelpText()
+	const placeHolderTranslate = useLanguage()
 
 	// This function is called when the user submits the form or presses the send button.
 	const handleSpeechToTextSubmit: FormEventHandler<HTMLFormElement> = async e => {
@@ -80,9 +81,7 @@ export function SpeechToText() {
 				if (!res.prompt?.includes('again')) {
 					form.current?.reset()
 				}
-				
-				setHelpText('Click anything or type in the chatbox.') // Ito ung default na text na lalabas sa UI kapag may new choices
-				break
+
 			}
 		}
 		
@@ -111,9 +110,10 @@ export function SpeechToText() {
 				<div className="relative flex w-full items-center gap-x-2 max-sm:px-2">
 						<div className="relative flex-1">
 							<input
+								id="free_input"
 								type="text"
 								className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-								placeholder="Type anything here!"
+								placeholder={placeHolderTranslate}
 								name="text"
 								ref={input}
 							/>
