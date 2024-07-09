@@ -82,6 +82,8 @@ export function SpeechToText() {
 					form.current?.reset()
 				}
 
+				break
+
 			}
 		}
 		
