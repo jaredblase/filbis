@@ -79,7 +79,7 @@ export default async function ChatPage() {
 
 					<div className = "relative w-full mt-5">
 						<hr className="relative border-t-4 border-gray-300 rounded-full w-full"></hr>
-						<SpeechToText />
+						<SpeechToText/>
 					</div>
 
 					
