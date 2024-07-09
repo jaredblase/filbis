@@ -110,7 +110,7 @@ export function SpeechToText() {
 			
 			stopChoices = {...stopChoices, [index]: buildString};
 		});
-		const grammar = `#JSGF V1.0; grammar colors; public <answers> = ${stringArray.join(" | ",)};`;
+		const grammar = `#JSGF V1.0; grammar answers; public <answer> = ${stringArray.join(" | ",)};`;
 		console.log(grammar);
 		console.log("GRAMMAR: " + grammar);
 		speechRecognitionList.addFromString(grammar);
@@ -131,7 +131,6 @@ export function SpeechToText() {
 				const splitCommands = Object.keys(stopCommands);
 				for (let i = 0; i < splitCommands.length; i++) {
 					const command = splitCommands[i];
-					console.log(Object.values(stopCommands)[i]);
 					const splitChoice = (Object.values(stopCommands)[i] as string).split(" ");
 					for (let ii = 0; ii < splitChoice.length; ii++) {
 						const partial = splitChoice[ii];
