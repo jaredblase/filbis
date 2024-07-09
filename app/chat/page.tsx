@@ -74,7 +74,8 @@ export default async function ChatPage() {
 					<ChatForm choices={choices} />
 
 					<div className = "relative w-full mt-5">
-						<SpeechToText />
+						<hr className="relative border-t-4 border-gray-300 rounded-full w-full"></hr>
+						<SpeechToText/>
 					</div>
 
 				</div>
