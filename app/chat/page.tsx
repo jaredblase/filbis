@@ -5,7 +5,6 @@ import { ChatForm } from './chat-form'
 import { detectIntent, extractPromptAndChoices } from '@/lib/dialog-client'
 import { PromptMessage } from './prompt-message'
 import { cookies } from 'next/headers'
-//import { FilbisUpAvatar } from '@/components/Filbis-up'
 import { FilbisAvatar } from '@/components/Filbis'
 import { SpeechToText } from './speech-to-text'
 
@@ -49,7 +48,6 @@ export default async function ChatPage() {
 					<path
 						d="M 0 45 L 0 0 L 1281.5 -0.5 v 49.5 C 614 -58 766 119 0 45 Z"
 						fill="#5E99F7"
-						//fill="#1D4FD7"
 					/>
 					
 				</svg>
@@ -62,11 +60,9 @@ export default async function ChatPage() {
 							<FilbisAvatar className="relative flex justify-self-start w-[20vw] h-[20vh] -z-10 xl:block lg:block md:hidden sm:hidden xs:hidden"/>
 							<div className="xl:ml-16 lg:ml-16 w-full h-full"> 
 								<div className="bg-blue-500 rounded-3xl p-4 w-full h-full">
-									{/*<p className="p-4 text-[#ED7042] text-max-w-prose text-center xl:text-6xl lg:text-6xl md:text-3xl sm:text-3xl xs:text-2xl font-shrikhand text-shadow-white tracking-wider" > FilBis </p> */}
-									{/*<hr></hr>*/}
 									<div className="flex items-center justify-center w-full h-full">
 										<PromptMessage
-											className="p-4 flex text-center items-center justify-center font-bold text-secondary-100 xl:text-4xl lg:text-4xl md:text-3xl sm:text-sm xs:text-xs "
+											className="p-4 flex text-center items-center justify-center font-bold text-secondary-100 xl:text-4xl lg:text-4xl md:text-3xl sm:text-2xl xs:text-xl "
 											prompt={prompt}
 											voice={voice}
 										/>
@@ -78,11 +74,9 @@ export default async function ChatPage() {
 					<ChatForm choices={choices} />
 
 					<div className = "relative w-full mt-5">
-						<hr className="relative border-t-4 border-gray-300 rounded-full w-full"></hr>
 						<SpeechToText />
 					</div>
 
-					
 				</div>
 			</div>
 		</>
