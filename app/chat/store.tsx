@@ -27,6 +27,7 @@ type ChatStore = {
 	helpText: string
 	isMuted: boolean
 	voice?: string
+	isVoiceMuted: boolean
 	actions: {
 		setPrompt: (prompt: string) => void
 		setChoices: (choices: Array<Choice>) => void
@@ -34,6 +35,7 @@ type ChatStore = {
 		setHelpText: (helpText: string) => void
 		setVoice: (voice?: string) => void
 		toggleMute: () => void
+		toggleVoiceMute: () => void
 	}
 }
 
@@ -43,6 +45,7 @@ const useChatStore = create<ChatStore>(set => ({
 	language: "Type anything here!",
 	helpText: 'Click anything or type in the chatbox.',
 	isMuted: false,
+	isVoiceMuted: true,
 	voice: undefined,
 	actions: {
 		setPrompt: prompt => set({ prompt }),
@@ -51,6 +54,7 @@ const useChatStore = create<ChatStore>(set => ({
 		setHelpText: helpText => set({ helpText }),
 		setVoice: voice => set({ voice: voice ? `/assets/audio_files/${voice}` : undefined }),
 		toggleMute: () => set(state => ({ isMuted: !state.isMuted })),
+		toggleVoiceMute: () => set(state => ({ isVoiceMuted: !state.isVoiceMuted})),
 	},
 }))
 
@@ -60,4 +64,5 @@ export const useLanguage = () => useChatStore(state => state.language)
 export const useChoices = () => useChatStore(state => state.choices)
 export const useHelpText = () => useChatStore(state => state.helpText)
 export const useIsMuted = () => useChatStore(state => state.isMuted)
+export const useIsVoiceMuted = () => useChatStore(state => state.isVoiceMuted)
 export const useChatActions = () => useChatStore(state => state.actions)

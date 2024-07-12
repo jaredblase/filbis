@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react'
 
 export function LoginButton() {
+
 	return (
 		<button
 			onClick={() => signIn('google', { callbackUrl: '/chat' })}
@@ -10,5 +11,6 @@ export function LoginButton() {
 		>
 			Login
 		</button>
+		
 	)
 }

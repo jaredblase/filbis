@@ -6,12 +6,13 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import {
+	IconContext,
 	SpeakerX,
 	ClockCounterClockwise,
 	Info,
 	GearSix,
 	SignOut,
-} from '@phosphor-icons/react/dist/ssr/index'
+} from '@phosphor-icons/react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { PopoverTriggerProps } from '@radix-ui/react-popover'
 import { signOut } from 'next-auth/react'
@@ -35,9 +36,11 @@ export function MobileMenuBar({ src, children, ...props }: MobileMenuBarProps) {
 			>
 				<menu className="grid gap-y-2 [&_*]:aspect-square ">
 					{children}
-					<button onClick={() => signOut({ callbackUrl: '/' })}>
-						<SignOut className="icon hover:bg-[#e26b3f] rounded-lg" />
-					</button>
+					<IconContext.Provider value={{ size: 36 }}>
+						<button onClick={() => signOut({ callbackUrl: '/' })}>
+							<SignOut className="icon hover:bg-[#e26b3f] rounded-lg" />
+						</button>
+					</IconContext.Provider>
 				</menu>
 			</PopoverContent>
 		</Popover>
