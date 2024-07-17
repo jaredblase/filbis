@@ -89,7 +89,8 @@ export function SpeechToText() {
 	return (
 		<>
 			{/*((storedChoices.length == 0 && isVoiceMuted == false) || (storedChoices.length > 0 && isVoiceMuted == false))*/}
-			{ storedChoices.length == 0 && (
+			{/*storedChoices.length == 0 &&*/}
+			{ ((storedChoices.length == 0 && isVoiceMuted == false) || (storedChoices.length > 0 && isVoiceMuted == false) || (storedChoices.length == 0)) && (
 				<form className="relative w-full mt-5" onSubmit={handleSpeechToTextSubmit} ref={form}>
 					<hr className="relative border-t-4 border-gray-300 rounded-full w-full mb-9"></hr>
 					<div className="relative flex w-full items-center gap-x-2 max-sm:px-2">
