@@ -15,6 +15,7 @@ import { Hash, Map } from 'lucide-react'
 import voiceIgnores from '../chat/ignore.json'
 import synonymsList from '../chat/synonyms.json'
 import { json } from 'stream/consumers'
+import { comma } from 'postcss/lib/list'
 // import { VoiceRecorder }  from '@/app/api/recognition/speechRecognition'
 
 // JOLT Transformation
@@ -151,23 +152,25 @@ export function SpeechToText() {
 		storedChoices.map((choice, index) => {
 			const option = JSON.stringify(choice.title);
 			var buildString = "";
-
-			if (choice.title.replaceAll(".", "").toLowerCase() in synonyms) {
+			const formattedTitle = choice.title.replaceAll(".", "").trimEnd().replaceAll(" ", "_").toLowerCase();
+			console.log(formattedTitle);
+			if (formattedTitle in synonyms) {
 				buildString = choice.title.replaceAll(".", "");
-				synonyms[choice.title.replaceAll(".", "").toLowerCase()].map(title => {
-					title.split(" ").map(value => {
-						if (value.toLowerCase() in voiceIgnores) {
-							console.error(value + " is an ignore word");
-						} else {
-							if (value.toLowerCase().replaceAll(" ", "_") in synonyms) {
-								synonyms[value.toLowerCase()].map(value => {
-									stringArray.push(value);
-								});
-							} else {
-								stringArray.push(value);
-							}
-						}
-					});
+				synonyms[formattedTitle].map(title => {
+					stringArray.push(title);
+					// title.split(" ").map(value => {
+					// 	if (value.toLowerCase() in voiceIgnores) {
+					// 		console.error(value + " is an ignore word");
+					// 	} else {
+					// 		if (value.toLowerCase().replaceAll(" ", "_") in synonyms) {
+					// 			synonyms[value.toLowerCase()].map(value => {
+					// 				stringArray.push(value);
+					// 			});
+					// 		} else {
+					// 			stringArray.push(value);
+					// 		}
+					// 	}
+					// });
 				});
 			} else {
 				choice.title.replaceAll(".", "").split(" ").map((value) => {
@@ -175,7 +178,7 @@ export function SpeechToText() {
 						console.error(value + " is an ignore word");
 					} else {
 						buildString = buildString.concat(value + " ");
-						if (value.toLowerCase().replaceAll(" ", "_") in synonyms) {
+						if (value.toLowerCase() in synonyms) {
 							synonyms[value.toLowerCase()].map(value => {
 								stringArray.push(value);
 							});
@@ -207,37 +210,51 @@ export function SpeechToText() {
 			} else {
 				const splitCommands = Object.keys(stopCommands);
 				for (let i = 0; i < splitCommands.length; i++) {
-					const command = splitCommands[i];
-					const splitChoice = (Object.values(stopCommands)[i] as string).split(" ");
-					for (let ii = 0; ii < splitChoice.length; ii++) {
-						const partial = splitChoice[ii];
-						const array = synonyms[partial.toLowerCase()];
-						if (synonyms[partial.toLowerCase()]) {
-							for (let iii = 0; iii < array.length; iii++) {
-								const partial = array[iii];
-								if (partial != "") {
+					const command = Object.values(stopCommands)[i] as string;
+					if (command.trimEnd().toLowerCase().includes(" ") && command.trimEnd().toLowerCase().replaceAll(" ", "_") in synonyms) {
+						const synonymsArray = synonyms[command.trimEnd().toLowerCase().replaceAll(" ", "_")];
+						for (let ii = 0; ii < synonymsArray.length; ii++) {
+							const partial = synonymsArray[ii];
+							console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase())
+							if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
+								stopRecording();
+								console.log("ISSUED STOP COMMAND: " + command);
+								document.getElementById('text')?.setAttribute('value', command);
+								form.current?.requestSubmit();
+							}
+						}
+					} else {
+						const splitChoice = command.split(" ");
+						for (let ii = 0; ii < splitChoice.length; ii++) {
+							const partial = splitChoice[ii];
+							const synonymsArray = synonyms[partial.toLowerCase()];
+							if (synonymsArray) {
+								for (let iii = 0; iii < synonymsArray.length; iii++) {
+									const partial = synonymsArray[iii];
+									if (partial != "") {
+										console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
+										// console.log("CASE: " + webkitTranscript.toLowerCase().includes(partial.toLowerCase()))
+										if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
+											// stopListening();
+											stopRecording();
+											console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
+											document.getElementById('text')?.setAttribute('value', command);
+											form.current?.requestSubmit();
+											return;
+										}
+									}	
+								}
+							} else if (partial != "") {
 									console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
 									// console.log("CASE: " + webkitTranscript.toLowerCase().includes(partial.toLowerCase()))
 									if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
 										// stopListening();
 										stopRecording();
 										console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
-										document.getElementById('text')?.setAttribute('value', (Object.values(stopCommands)[i] as string));
+										document.getElementById('text')?.setAttribute('value', command);
 										form.current?.requestSubmit();
 										return;
-									}
-								}	
-							}
-						} else if (partial != "") {
-								console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
-								// console.log("CASE: " + webkitTranscript.toLowerCase().includes(partial.toLowerCase()))
-								if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
-									// stopListening();
-									stopRecording();
-									console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
-									document.getElementById('text')?.setAttribute('value', (Object.values(stopCommands)[i] as string));
-									form.current?.requestSubmit();
-									return;
+								}
 							}
 						}
 					}
