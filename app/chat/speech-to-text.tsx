@@ -207,7 +207,7 @@ export function SpeechToText() {
 			if (Object.keys(stopCommands).length <= 0) {
 				// stopListening()
 				stopRecording();
-				document.getElementById('text')?.setAttribute('value', webkitTranscript);
+				document.getElementById('free_input')?.setAttribute('value', webkitTranscript);
 				// form.current?.requestSubmit();
 			} else {
 				const splitCommands = Object.keys(stopCommands);
@@ -221,8 +221,9 @@ export function SpeechToText() {
 							if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
 								stopRecording();
 								console.log("ISSUED STOP COMMAND: " + command);
-								document.getElementById('text')?.setAttribute('value', command);
+								document.getElementById('free_input')?.setAttribute('value', command);
 								form.current?.requestSubmit();
+								return;
 							}
 						}
 					} else {
@@ -240,7 +241,7 @@ export function SpeechToText() {
 											// stopListening();
 											stopRecording();
 											console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
-											document.getElementById('text')?.setAttribute('value', command);
+											document.getElementById('free_input')?.setAttribute('value', command);
 											form.current?.requestSubmit();
 											return;
 										}
@@ -253,14 +254,14 @@ export function SpeechToText() {
 										// stopListening();
 										stopRecording();
 										console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
-										document.getElementById('text')?.setAttribute('value', command);
+										document.getElementById('free_input')?.setAttribute('value', command);
 										form.current?.requestSubmit();
 										return;
 								}
 							}
 						}
 					}
-					document.getElementById('text')?.setAttribute('value', webkitTranscript);
+					document.getElementById('free_input')?.setAttribute('value', webkitTranscript);
 					// (Object.values(stopCommands)[index] as string).split(" ").map((partial) => {
 					// 	if (partial != "") {
 					// 		console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
@@ -269,7 +270,7 @@ export function SpeechToText() {
 					// 			// stopListening();
 					// 			stopRecording();
 					// 			console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[index]);
-					// 			document.getElementById('text')?.setAttribute('value', (Object.values(stopCommands)[index] as string));
+					// 			document.getElementById('free_input')?.setAttribute('value', (Object.values(stopCommands)[index] as string));
 					// 			form.current?.requestSubmit();
 					// 			return true;
 					// 		}
@@ -344,7 +345,7 @@ export function SpeechToText() {
 
 			}
 		}
-		document.getElementById('text')?.setAttribute('value', "");
+		document.getElementById('free_input')?.setAttribute('value', "");
 		// Stop the loading spinner
 		loading.stop()
 	}
