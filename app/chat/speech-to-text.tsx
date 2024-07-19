@@ -89,7 +89,6 @@ export function SpeechToText() {
     const [recognition, setRecognition] = useState(new webkitSpeechRecognition());
 	const [speechRecognitionList, setSpeechRecognitionList] = useState(new webkitSpeechGrammarList());
 
-        
     useEffect(() => {
         if ('webkitSpeechRecognition' in window) {
 			const recognitionInstance = new webkitSpeechRecognition();
@@ -365,48 +364,62 @@ export function SpeechToText() {
 			startRecording();
 		}
 	}
+
 	return (
 		<>
-			<form className="relative w-full mt-5" onSubmit={handleSpeechToTextSubmit} ref={form}>
-				<div className="relative flex w-full items-center gap-x-2 max-sm:px-2">
-						<div className="relative flex-1">
-							{/* { mainTranscript != "" &&  */
-								(								
+				<form className="relative w-full h-full flex flex-col " onSubmit={handleSpeechToTextSubmit} ref={form}>
+					{/*Only show Free Input when there are no choices*/}
+					{ storedChoices.length == 0 && (
+						<div id="text-input-div" className="relative flex h-full w-full items-center gap-x-2 max-sm:px-2 mt-5">
+								<div className="relative flex-1">
 									<input
-									type="text"
-									className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-									placeholder="Type anything here!"
-									name="text"
-									id='text'
-									ref={input}
-									// onChange={stopRecording}
-								/>)
-							} 
-							{/* { mainTranscript == "" && 
-								(								
-									<input
-									type="text"
-									className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-									placeholder="Type anything here!"
-									name="text"
-									ref={input}
-								/>)
-							} */}
-							<button
-								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square rounded-full p-1.5 transition-colors ${
-									isRecording ? 'btn-primary animate-pulse' : ''
-								}`}
-								type="button"
-								onClick={handleMicClick}
-							>
-								<Microphone className="icon" />
-							</button>
+										id="free_input"
+										type="text"
+										className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
+										placeholder={placeHolderTranslate}
+										name="text"
+										ref={input}
+									/>
+								</div>
+							<IconContext.Provider value={{size: 50}}>
+								<button className="btn">
+									<PaperPlaneRight className="icon" />
+								</button>
+							</IconContext.Provider>
 						</div>
-					<button className="btn w-10 p-0">
-						<PaperPlaneRight className="icon" />
-					</button>
-				</div>
-			</form>
+					)}
+	
+					{/*Only show mic if mic is not muted*/}
+					{( isVoiceMuted == false ) && (
+						<div className="relative h-full w-full flex flex-col items-center mt-5">
+							{/*This is necessary so that the transcription can be submitted to the form. 
+							Naka hide kasi ung duplicated elements nito sa ^taas^ if may choices, kaya gumawa 
+							ng duplicated elements na naka hide para sa transcription*/}
+							{ storedChoices.length != 0  && (
+								<div className="hidden">
+									<input
+										id="free_input"
+										type="text"
+										className="hidden"
+										placeholder={placeHolderTranslate}
+										name="text"
+										ref={input}
+									/>
+									<button className="btn">
+										<PaperPlaneRight className="icon hidden" />
+									</button>	
+								</div>							
+							)}
+
+							<IconContext.Provider value={{size: 60}}>
+								<button
+									className={`btn duration-[1.25s] relative inset-y-0 border-white my-auto aspect-square rounded-full transition-colors ${isRecording ? 'btn-primary animate-pulse' : ''}`} type="button" onClick={handleMicClick}>
+									<Microphone className="icon" />
+								</button>
+							</IconContext.Provider>
+						</div>
+					)}
+				</form>
 		</>
 	)
 }
