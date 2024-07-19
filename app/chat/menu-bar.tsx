@@ -15,6 +15,8 @@ import {
 	ChatCircleSlash,
 	ChatCircle,
 	SignOut,
+	MicrophoneSlash,
+	Microphone,
 } from '@phosphor-icons/react'
 import { signOut } from 'next-auth/react'
 import { createPortal } from 'react-dom'
@@ -54,9 +56,9 @@ export function MenuBar({ src }: MenuBarProps) {
 
 					<button title="Toggle microphone">
 						{isVoiceMuted ? (
-							<ChatCircleSlash className="icon" onClick={toggleVoiceMute} />
+							<MicrophoneSlash className="icon" onClick={toggleVoiceMute} />
 						) : (
-							<ChatCircle className="icon" onClick={toggleVoiceMute} />
+							<Microphone className="icon" onClick={toggleVoiceMute} />
 						)}
 					</button>
 

@@ -17,15 +17,15 @@ export const VoiceRecorder = () => {
         
     useEffect(() => {
         if ('webkitSpeechRecognition' in window) {
-        const recognitionInstance = new webkitSpeechRecognition();
+            const recognitionInstance = new webkitSpeechRecognition();
 
-        recognitionInstance.continuous = true;
-        recognitionInstance.interimResults = false;
-        recognitionInstance.lang = 'en-US';
+            recognitionInstance.continuous = true;
+            recognitionInstance.interimResults = false;
+            recognitionInstance.lang = 'en-US';
 
-        recognitionInstance.onstart = () => {
-            setIsRecording(true);
-            console.log('Voice recognition started. Speak now.');
+            recognitionInstance.onstart = () => {
+                setIsRecording(true);
+                console.log('Voice recognition started. Speak now.');
         };
 
         recognitionInstance.onresult = (event) => {
