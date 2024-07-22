@@ -89,6 +89,7 @@ export function SpeechToText() {
     const [recognition, setRecognition] = useState(new webkitSpeechRecognition());
 	const [speechRecognitionList, setSpeechRecognitionList] = useState(new webkitSpeechGrammarList());
 
+
     useEffect(() => {
         if ('webkitSpeechRecognition' in window) {
 			const recognitionInstance = new webkitSpeechRecognition();
@@ -145,14 +146,14 @@ export function SpeechToText() {
 
 	useEffect(() => {
 		var stopChoices = {};
-		console.log(storedChoices);
+		// console.log(storedChoices);
 		// console.log(JSON.stringify(storedChoices));
 		var stringArray = Array<String>();
 		storedChoices.map((choice, index) => {
 			const option = JSON.stringify(choice.title);
 			var buildString = "";
 			const formattedTitle = choice.title.replaceAll(".", "").trimEnd().replaceAll(" ", "_").toLowerCase();
-			console.log(formattedTitle);
+			// console.log(formattedTitle);
 			if (formattedTitle in synonyms) {
 				buildString = choice.title.replaceAll(".", "");
 				synonyms[formattedTitle].map(title => {
@@ -190,21 +191,26 @@ export function SpeechToText() {
 			stopChoices = {...stopChoices, [index]: buildString};
 		});
 		const grammar = `#JSGF V1.0; grammar answers; public <answer> = ${stringArray.join(" | ",)};`;
-		console.log(grammar);
-		console.log("GRAMMAR: " + grammar);
+		// console.log(grammar);
+		// console.log("GRAMMAR: " + grammar);
 		speechRecognitionList.addFromString(grammar);
 		setStopCommands(stopChoices);
-		console.log(stopChoices);
+		// console.log(stopChoices);
 	}, [storedChoices])
 
 	useEffect(() => {
 		// console.log(webkitTranscript);
 		if (webkitTranscript != "") {
-			console.log(JSON.stringify(stopCommands));
+			// console.log(JSON.stringify(stopCommands));
 			if (Object.keys(stopCommands).length <= 0) {
 				// stopListening()
 				stopRecording();
 				document.getElementById('free_input')?.setAttribute('value', webkitTranscript);
+				var transcriptionContainer = document.getElementById('transcription-p');
+				if ( transcriptionContainer != null ){
+					transcriptionContainer.classList.remove("hidden");
+					transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+				}
 				// form.current?.requestSubmit();
 			} else {
 				const splitCommands = Object.keys(stopCommands);
@@ -214,11 +220,18 @@ export function SpeechToText() {
 						const synonymsArray = synonyms[command.trimEnd().toLowerCase().replaceAll(" ", "_")];
 						for (let ii = 0; ii < synonymsArray.length; ii++) {
 							const partial = synonymsArray[ii];
-							console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase())
+							// console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase())
 							if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
 								stopRecording();
-								console.log("ISSUED STOP COMMAND: " + command);
+								// console.log("ISSUED STOP COMMAND: " + command);
 								document.getElementById('free_input')?.setAttribute('value', command);
+								
+								var transcriptionContainer = document.getElementById('transcription-p');
+								if ( transcriptionContainer != null ){
+									transcriptionContainer.classList.remove("hidden");
+									transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+								}
+
 								form.current?.requestSubmit();
 								return;
 							}
@@ -232,26 +245,40 @@ export function SpeechToText() {
 								for (let iii = 0; iii < synonymsArray.length; iii++) {
 									const partial = synonymsArray[iii];
 									if (partial != "") {
-										console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
+										// console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
 										// console.log("CASE: " + webkitTranscript.toLowerCase().includes(partial.toLowerCase()))
 										if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
 											// stopListening();
 											stopRecording();
-											console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
+											// console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
 											document.getElementById('free_input')?.setAttribute('value', command);
+											
+											var transcriptionContainer = document.getElementById('transcription-p');
+											if ( transcriptionContainer != null ){
+												transcriptionContainer.classList.remove("hidden");
+												transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+											}
+
 											form.current?.requestSubmit();
 											return;
 										}
 									}	
 								}
 							} else if (partial != "") {
-									console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
+									// console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
 									// console.log("CASE: " + webkitTranscript.toLowerCase().includes(partial.toLowerCase()))
 									if (webkitTranscript.toLowerCase().includes(partial.toLowerCase())) {
 										// stopListening();
 										stopRecording();
-										console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
+										// console.log("ISSUED STOP COMMAND: " + Object.values(stopCommands)[i]);
 										document.getElementById('free_input')?.setAttribute('value', command);
+
+										var transcriptionContainer = document.getElementById('transcription-p');
+										if ( transcriptionContainer != null ){
+											transcriptionContainer.classList.remove("hidden");
+											transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+										}
+
 										form.current?.requestSubmit();
 										return;
 								}
@@ -259,6 +286,11 @@ export function SpeechToText() {
 						}
 					}
 					document.getElementById('free_input')?.setAttribute('value', webkitTranscript);
+					var transcriptionContainer = document.getElementById('transcription-p');
+					if ( transcriptionContainer != null ){
+						transcriptionContainer.classList.remove("hidden");
+						transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+					}
 					// (Object.values(stopCommands)[index] as string).split(" ").map((partial) => {
 					// 	if (partial != "") {
 					// 		console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
@@ -288,6 +320,8 @@ export function SpeechToText() {
 		//   console.log("STOP COMMAND ISSUED");
 		// }
 	}, [webkitTranscript]);
+
+	// For the little dialog transcription box that appears when the user speaks into the microphone.
 
 	// This function is called when the user submits the form or presses the send button.
 	const handleSpeechToTextSubmit: FormEventHandler<HTMLFormElement> = async e => {
@@ -343,6 +377,11 @@ export function SpeechToText() {
 			}
 		}
 		document.getElementById('free_input')?.setAttribute('value', "");
+		var transcriptionContainer = document.getElementById('transcription-p');
+		if ( transcriptionContainer != null ){
+			transcriptionContainer.classList.add("hidden");
+			transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
+		}
 		// Stop the loading spinner
 		loading.stop()
 	}
@@ -367,7 +406,7 @@ export function SpeechToText() {
 
 	return (
 		<>
-				<form className="relative w-full h-full flex flex-col " onSubmit={handleSpeechToTextSubmit} ref={form}>
+				<form className="relative w-full h-full flex flex-col items-center" onSubmit={handleSpeechToTextSubmit} ref={form}>
 					{/*Only show Free Input when there are no choices*/}
 					{ storedChoices.length == 0 && (
 						<div id="text-input-div" className="relative flex h-full w-full items-center gap-x-2 max-sm:px-2 mt-5">
@@ -388,10 +427,18 @@ export function SpeechToText() {
 							</IconContext.Provider>
 						</div>
 					)}
-	
+
 					{/*Only show mic if mic is not muted*/}
 					{( isVoiceMuted == false ) && (
 						<div className="relative h-full w-full flex flex-col items-center mt-5">
+
+							{/*A div where the transcription will be displayed*/}
+							{ ( webkitTranscript != "" ) && (
+								<div className="relative h-10 flex flex-col items-center bg-blue-300 rounded-full">
+									<p id="transcription-p" className="m-auto text-center text-lg px-5 italic"></p>
+								</div>
+							)}
+
 							{/*This is necessary so that the transcription can be submitted to the form. 
 							Naka hide kasi ung duplicated elements nito sa ^taas^ if may choices, kaya gumawa 
 							ng duplicated elements na naka hide para sa transcription*/}
