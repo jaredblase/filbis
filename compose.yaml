@@ -35,7 +35,7 @@ services:
 
   certbot:
     image: certbot/certbot
-    container_name: certbot
+    container_name: certbot_v2
     networks:
       - main
     volumes:
