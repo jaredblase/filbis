@@ -20,7 +20,7 @@ services:
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
-  filbis:
+  filbis_v2:
     user: root
     container_name: filbis_v2
     image: filbis:latest
@@ -33,7 +33,7 @@ services:
       - ./.env.local:/app/.env.local
       - ./app.log:/app/app.log
 
-  certbot:
+  certbot_v2:
     image: certbot/certbot
     container_name: certbot_v2
     networks:
