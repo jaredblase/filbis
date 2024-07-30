@@ -22,7 +22,7 @@ services:
 
   filbis:
     user: root
-    container_name: filbis
+    container_name: filbis_v2
     image: filbis:latest
     build: .
     networks:
