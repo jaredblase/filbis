@@ -80,6 +80,8 @@ export function SpeechToText() {
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
 	const helpText = useHelpText()
+	const placeHolderTranslate = useLanguage()
+	const isVoiceMuted = useIsVoiceMuted()
 	var bRecording = false;
 	const [stopCommands, setStopCommands] = useState({});
 	const [mainTranscript, setMainTranscript] = useState("");
@@ -387,7 +389,6 @@ export function SpeechToText() {
 	}
 
 	async function handleMicClick() {
-		// Mic is CURRENTLY recording
 		if (isRecording) {
 			// Stop mic to listen
 			// bRecording = false;
