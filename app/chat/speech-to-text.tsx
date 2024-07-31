@@ -4,7 +4,7 @@ import { IconContext, PaperPlaneRight, Microphone } from '@phosphor-icons/react'
 import { redirect } from 'next/navigation'
 import { FormEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import wretch from 'wretch'
-import { useChatActions, useChoices, useHelpText, useLanguage, useIsVoiceMuted } from './store'
+import { useChatActions, useChoices, useHelpText, useLanguage, useIsVoiceMuted, usePrompt } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
 import { useLoading } from '@/lib/use-loader'
@@ -18,7 +18,7 @@ import { json } from 'stream/consumers'
 import { comma } from 'postcss/lib/list'
 // import { VoiceRecorder }  from '@/app/api/recognition/speechRecognition'
 
-// JOLT Transformation
+// JOLT Transformation for Synonyms
 // [
 // 	{
 // 	  "operation": "shift",
@@ -36,6 +36,7 @@ import { comma } from 'postcss/lib/list'
 // 	}
 // ]
 
+//
 // [
 // 	{
 // 	  "operation": "shift",
@@ -51,6 +52,7 @@ import { comma } from 'postcss/lib/list'
 // 	}
 // ]
 
+//
 // [
 // 	{
 // 	  "operation": "shift",
@@ -71,11 +73,9 @@ import { comma } from 'postcss/lib/list'
 
 export function SpeechToText() {
 	const [synonyms, setSynonyms]= useState<{[index: string]: Array<string>}>(synonymsList);
-	const { startListening, stopListening, transcript } = useVoiceToText({continuous: true})
-	// const { startRecording, stopRecording, webkitTranscript, isRecording, recognition} = VoiceRecorder();
 	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
 	const storedChoices = useChoices()
-	const { start, stop, getFile, clearData } = useRecorder()
+	const [hintText, setHintText] = useState(usePrompt());
 	const loading = useLoading()
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
@@ -84,14 +84,28 @@ export function SpeechToText() {
 	const isVoiceMuted = useIsVoiceMuted()
 	var bRecording = false;
 	const [stopCommands, setStopCommands] = useState({});
-	const [mainTranscript, setMainTranscript] = useState("");
-
     const [webkitTranscript, setWebkitTranscript] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [recognition, setRecognition] = useState(new webkitSpeechRecognition());
 	const [speechRecognitionList, setSpeechRecognitionList] = useState(new webkitSpeechGrammarList());
 
+	// Depricated - Soft Deprication
+	// start, stop are unused
+	// getFile and clearData are still used but do not function as originally intended
+	// ^ ^ ^ kept only for clarity of code
+	const { start, stop, getFile, clearData } = useRecorder()
 
+	// Depricated - Hard Deprication
+	// const [mainTranscript, setMainTranscript] = useState("");
+	// const { startListening, stopListening, transcript } = useVoiceToText({continuous: true})
+	// const { startRecording, stopRecording, webkitTranscript, isRecording, recognition} = VoiceRecorder();
+
+	// useEffect();
+	// useEffect acts like a tick function, it practically runs every frame but it depends on whats inside of the [] after the callback function
+	// if the [] contains a variable useEffect only runs if that variable changes
+	// if the [] is empty, it runs only once per render, think of it as a begin-play or start function after spawning an object or something
+
+	// initializes the webkitSpeechRecognition();
     useEffect(() => {
         if ('webkitSpeechRecognition' in window) {
 			const recognitionInstance = new webkitSpeechRecognition();
@@ -147,6 +161,17 @@ export function SpeechToText() {
     };
 
 	useEffect(() => {
+		if (hintText.includes("(") && hintText.includes(")")) {
+			setHintText(hintText.substring(hintText.indexOf("(") + 1, hintText.indexOf(")") - 1));
+		} else {
+			setHintText(placeHolderTranslate);
+		}
+	}, [hintText]);
+
+	// initializes the stored choices
+	// responsible for setting up the Auto Accepter's possible responses
+	// runs when `storedChoices` changes
+	useEffect(() => {
 		var stopChoices = {};
 		// console.log(storedChoices);
 		// console.log(JSON.stringify(storedChoices));
@@ -160,19 +185,6 @@ export function SpeechToText() {
 				buildString = choice.title.replaceAll(".", "");
 				synonyms[formattedTitle].map(title => {
 					stringArray.push(title);
-					// title.split(" ").map(value => {
-					// 	if (value.toLowerCase() in voiceIgnores) {
-					// 		console.error(value + " is an ignore word");
-					// 	} else {
-					// 		if (value.toLowerCase().replaceAll(" ", "_") in synonyms) {
-					// 			synonyms[value.toLowerCase()].map(value => {
-					// 				stringArray.push(value);
-					// 			});
-					// 		} else {
-					// 			stringArray.push(value);
-					// 		}
-					// 	}
-					// });
 				});
 			} else {
 				choice.title.replaceAll(".", "").split(" ").map((value) => {
@@ -197,15 +209,14 @@ export function SpeechToText() {
 		// console.log("GRAMMAR: " + grammar);
 		speechRecognitionList.addFromString(grammar);
 		setStopCommands(stopChoices);
+
 		// console.log(stopChoices);
 	}, [storedChoices])
 
+	// handles the comparison from the choices
 	useEffect(() => {
-		// console.log(webkitTranscript);
 		if (webkitTranscript != "") {
-			// console.log(JSON.stringify(stopCommands));
 			if (Object.keys(stopCommands).length <= 0) {
-				// stopListening()
 				stopRecording();
 				document.getElementById('free_input')?.setAttribute('value', webkitTranscript);
 				var transcriptionContainer = document.getElementById('transcription-p');
@@ -213,7 +224,6 @@ export function SpeechToText() {
 					transcriptionContainer.classList.remove("hidden");
 					transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
 				}
-				// form.current?.requestSubmit();
 			} else {
 				const splitCommands = Object.keys(stopCommands);
 				for (let i = 0; i < splitCommands.length; i++) {
@@ -293,6 +303,7 @@ export function SpeechToText() {
 						transcriptionContainer.classList.remove("hidden");
 						transcriptionContainer.innerHTML = '"'+ webkitTranscript +'"';
 					}
+					// OLD CODE
 					// (Object.values(stopCommands)[index] as string).split(" ").map((partial) => {
 					// 	if (partial != "") {
 					// 		console.log("COMPARE: " + webkitTranscript.toLowerCase() + " WITH " + partial.toLowerCase());
@@ -314,13 +325,6 @@ export function SpeechToText() {
 				}
 			}
 		}
-		// console.log(Object.keys(stopChoices));
-		// console.log((stopChoices as any)[1]);
-		
-		// if (transcript.toLowerCase().includes("stop".toLowerCase())) {
-		//   stopListening();
-		//   console.log("STOP COMMAND ISSUED");
-		// }
 	}, [webkitTranscript]);
 
 	// For the little dialog transcription box that appears when the user speaks into the microphone.
@@ -416,7 +420,7 @@ export function SpeechToText() {
 										id="free_input"
 										type="text"
 										className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-										placeholder={placeHolderTranslate}
+										placeholder={hintText}
 										name="text"
 										ref={input}
 									/>
