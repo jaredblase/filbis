@@ -6,7 +6,7 @@ import { ultra } from '@/fonts/Ultra'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Your Ultimate Health Chatbot for your Kids | Filbis',
+	title: 'Filbis',
 	metadataBase: new URL(process.env.NEXTAUTH_URL ?? 'http://localhost:3000'),
 	description:
 		'Filbis is your Ultimate Health Chatbot made for children. Developed by the students of De La Salle University and the Department of Science and Technology with ❤️.',
@@ -57,12 +57,12 @@ export default function HomeLayout({
 					crossOrigin="anonymous"
 				></script>
 			</head>
-			<body className="bg-[#337641]">
-				<header className="container flex flex-wrap items-center justify-between py-4 pt-7">
+			<body className="bg-blue-800 h-screen min-h-xs">
+				<header className="flex flex-wrap items-center justify-between pt-10 pl-16 pr-16">
 					<Logos />
 					<menu id="header-menu" />
 				</header>
-				<main className="grid min-h-[calc(100vh-157px)] items-center">
+				<main className="items-center justify-center mt-[4vh] h-[70vh]">
 					{children}
 				</main>
 			</body>

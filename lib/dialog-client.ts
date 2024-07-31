@@ -1,3 +1,4 @@
+//Imports the Google Cloud Some API library (https://googleapis.dev/nodejs/dialogflow-cx/latest/index.html)
 import { SessionsClient } from '@google-cloud/dialogflow-cx'
 import { structProtoToJson } from './dialog-struct-parser'
 import { google } from '@google-cloud/dialogflow-cx/build/protos/protos'
@@ -55,6 +56,7 @@ export function extractPromptAndChoices(
 	let prompt: string | undefined
 	let voice: string | undefined
 	let choices: Array<Choice> = []
+	let language: string | undefined
 
 	const message = res.queryResult?.responseMessages?.[0]
 
@@ -70,11 +72,14 @@ export function extractPromptAndChoices(
 				title: q.title,
 				payload: q.payload,
 			})) ?? []
+		language = data.language
+	
 	}
 
 	return {
 		prompt,
 		voice,
 		choices,
+		language,
 	}
 }
