@@ -18,10 +18,10 @@
 	}
 
 	.h1 {
-		@apply text-3xl sm:text-5xl lg:text-8xl;
+		@apply text-3xl sm:text-5xl lg:text-8xl text-white;
 
 		&.with-shadow {
-			@apply shadow-primary-400 text-shadow text-shadow-y-1 sm:text-shadow-y-1.5 lg:text-shadow-y-2;
+			@apply shadow-blue-500 text-shadow text-shadow-y-1 sm:text-shadow-y-1.5 lg:text-shadow-y-2;
 		}
 	}
 
@@ -76,12 +76,12 @@
 		}
 
 		&:disabled .icon {
-			@apply hover:fill-white active:fill-white;
+			@apply hover:bg-[#e26b3f] rounded-lg;
 		}
 	}
 
 	.icon {
-		@apply fill-white transition-colors hover:fill-slate-200 active:fill-slate-300;
+		@apply fill-white transition-colors hover:bg-[#e26b3f] rounded-lg;
 	}
 
 	.scrollbar,
@@ -94,4 +94,12 @@
 	.container-block {
 		container-type: size;
 	}
+}
+
+.text-shadow-white {
+  text-shadow: 
+    1px 1px 0 #fff, 
+    -1px -1px 0 #fff, 
+    1px -1px 0 #fff, 
+    -1px 1px 0 #fff;
 }

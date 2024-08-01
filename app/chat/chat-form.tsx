@@ -1,38 +1,48 @@
 'use client'
 
-import {
-	PaperPlaneRight,
-	Microphone,
-} from '@phosphor-icons/react/dist/ssr/index'
+/*
+	chat-form.tsx
+	> Ito ung file for the whole conversation. 
+	  Dito makikita kung paano pinaprocess kapag nag susubmit ng prompt ung user sa chatbot (IN GENERAL VIEW)
+
+	IN Chatbot Data Cycle (https://docs.google.com/document/d/1QEsU5feIJyWrt0QA9Xbor6xMfkNKihGgFcfttmGEcJQ/edit#heading=h.hrr6iaj9ojqr)
+	- Chat Interface (WE ARE AT THIS PART) <-> Dialogflow CX <-> Fulfillment Server
+*/
 import { redirect } from 'next/navigation'
 import { FormEventHandler, MouseEventHandler, useEffect, useRef } from 'react'
 import wretch from 'wretch'
-import { useChatActions, useChoices, useHelpText } from './store'
+import { useChatActions, useChoices, useHelpText, useLanguage } from './store'
 import { Choice, extractPromptAndChoices } from '@/lib/dialog-client'
 import { useRecorder } from '@/lib/use-recorder'
 import { useLoading } from '@/lib/use-loader'
 import { Spinner } from '@/components/spinner'
 import FormDataAddon from 'wretch/addons/formData'
 
+
 type ChatFormProps = {
 	choices: Array<Choice>
 }
 
 export function ChatForm({ choices }: ChatFormProps) {
-	const { setPrompt, setChoices, setHelpText, setVoice } = useChatActions()
+	const { setPrompt, setChoices, setHelpText, setLanguage, setVoice } = useChatActions()
 	const storedChoices = useChoices()
 	const { start, stop, getFile, clearData, isRecording } = useRecorder()
 	const loading = useLoading()
 	const form = useRef<HTMLFormElement>(null)
 	const input = useRef<HTMLInputElement>(null)
-	const helpText = useHelpText()
 
+	// useEffect is a React Hook that lets you synchronize a component with an external system. (https://react.dev/reference/react/useEffect)
+	// Put choices(title and payload) all inside setChoices and run it only once because of "[]"
+	// If dependency is empty "[]", "An Effect with empty dependencies doesn’t re-run when any of your component’s props or state change."
+	// https://react.dev/reference/react/useEffect#specifying-reactive-dependencies
 	useEffect(() => setChoices(choices), [])
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
+
 		e.preventDefault()
 
 		const formData = new FormData(form.current!)
+
 		const file = getFile()
 
 		if (formData.get('text') === '') {
@@ -49,46 +59,45 @@ export function ChatForm({ choices }: ChatFormProps) {
 		}
 
 		loading.start()
+
 		setHelpText('Loading...')
 
-		// max 3 attempts in case of gateway timeout
 		for (let i = 0; i < 3; i++) {
+
 			const res = await wretch('/api/chat')
 				.addon(FormDataAddon)
 				.formData(Object.fromEntries(formData))
 				.post()
-				.badRequest(() => setHelpText('Invalid response. Please try again.'))
-				.unauthorized(() => redirect('/'))
+				.badRequest(() => setHelpText('Invalid response. Please try again.')) 
+				.unauthorized(() => redirect('/')) 
 				.internalError(res => setHelpText(res.json))
 				.error(504, () =>
-					// gateway timeout, vercel limitations
 					setHelpText('Request timeout. Attempting to resend request...')
 				)
 				.json<ReturnType<typeof extractPromptAndChoices>>()
 
 			if (res) {
 				setPrompt(res.prompt ?? '')
-				setVoice(res.voice)
-				setChoices(res.choices)
+				setVoice(res.voice) 
+				setChoices(res.choices) 
 
 				if (!res.prompt?.includes('again')) {
 					form.current?.reset()
 				}
 
-				setHelpText('Click anything or type in the chatbox.')
+				if (res.language == "tagalog"){
+					setLanguage("Mag-type ng kahit ano dito!")
+				} else if ( res.language == "cebuano"){
+					setLanguage("Diri ka musuwat!")
+				} else{
+					setLanguage("Type anything here!")
+				}
+				
 				break
 			}
 		}
-
+		
 		loading.stop()
-	}
-
-	async function handleMicClick() {
-		if (isRecording) {
-			return stop().then(() => form.current?.requestSubmit())
-		}
-
-		start()
 	}
 
 	const handleChoiceClick: MouseEventHandler = e => {
@@ -99,54 +108,44 @@ export function ChatForm({ choices }: ChatFormProps) {
 
 	return (
 		<>
-			<p className="text-center text-xl font-medium text-secondary-100">
-				{helpText}
-			</p>
-			<form onSubmit={handleSubmit} ref={form}>
-				<fieldset disabled={loading.submitting}>
-					{loading.delayed ? (
-						<Spinner className="mx-auto" />
-					) : (
-						<div className="mb-4 flex max-h-72 flex-col gap-y-3 overflow-y-auto text-xl scrollbar-thin max-sm:px-2">
-							{storedChoices.map(choice => (
-								<button
-									key={choice.payload}
-									type="button"
-									className="btn btn-primary w-full"
-									value={choice.payload}
-									onClick={handleChoiceClick}
-								>
-									{choice.title}
-								</button>
-							))}
-						</div>
-					)}
-
-					<div className="flex w-full items-center gap-x-2 max-sm:px-2">
-						<div className="relative flex-1">
+			{storedChoices.length > 0 && (
+				<div className = "relative w-full h-[30vh] justify-center items-center flex flex-col mt-5">	
+					<div className="min-w-full h-full relative flex flex-col justify-center gap-y-6 rounded-3xl ">
+						<form className="relative w-full h-full" onSubmit={handleSubmit} ref={form}>
+								<fieldset className="relative w-full h-full" disabled={loading.submitting}>
+								{loading.delayed ? (
+								<Spinner className="mx-auto" />
+								) : (
+								<>
+									<div className="relative flex h-full w-full xl:flex-wrap xl:flex-col xl:gap-y-3 lg:flex-wrap lg:flex-col lg:gap-y-3 md:flex-wrap md:flex-col md:gap-y-3 sm:flex-col sm:gap-3 xs:flex-col xs:gap-3 xs:flex-nowrap overflow-y-auto overflow-x-auto scroll scroll-smooth scrollbar-thin first-letter:text-xl max-sm:px-2">
+										{storedChoices.map(choice => (
+											<button
+												key={choice.payload}
+												type="button"
+												className="relative bg-[#e26b3f] hover:bg-[#d85424] text-white border-b-4 border-white hover:border-white rounded-full btn xl:text-md lg:text-lg md:text-md sm:text-sm xs:text-xs"
+												value={choice.payload}
+												onClick={handleChoiceClick}
+											>
+												{choice.title}
+											</button>
+										))}
+									</div>
+								</>
+								)}
+							</fieldset>
+							
 							<input
 								type="text"
-								className="w-full rounded-full bg-white/50 px-5 py-4 text-lg"
-								placeholder="Type anything here!"
+								className="hidden"
+								placeholder= "Type anything here!"
 								name="text"
 								ref={input}
 							/>
-							<button
-								className={`btn duration-[1.25s] absolute inset-y-0 right-2 my-auto aspect-square w-12 rounded-full p-1.5 transition-colors ${
-									isRecording ? 'btn-primary animate-pulse' : ''
-								}`}
-								type="button"
-								onClick={handleMicClick}
-							>
-								<Microphone className="icon" />
-							</button>
-						</div>
-						<button className="btn w-10 p-0">
-							<PaperPlaneRight className="icon" />
-						</button>
+						</form>
 					</div>
-				</fieldset>
-			</form>
+				</div>
+			)}
+
 		</>
 	)
 }

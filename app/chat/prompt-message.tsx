@@ -23,7 +23,7 @@ export function PromptMessage({ prompt, voice, ...props }: PromptMessageProps) {
 	useEffect(() => {
 	if (storedVoiceName && !isMuted) {
 		const fetchAudio = async () => {
-		const extensions = ['.mp3', '.m4a', '.wav']; // List of possible extensions
+		const extensions = ['.wav']; // List of possible extensions
 		let audioSource = '';
 		for (const ext of extensions) {
 			try {

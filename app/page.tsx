@@ -10,31 +10,29 @@ export default async function HomePage() {
 
 	return (
 		<>
-			<div className="absolute top-0 -z-10 h-screen w-full">
+			<div className="bg-blue-800 absolute top-0 -z-10 w-full">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					preserveAspectRatio="none"
-					viewBox="0 0 1280 832"
-					className="h-full w-full"
+					viewBox="0 0 1280 348"
+					className="bg-blue-800 h-full w-full"
 				>
 					<path
-						d="M0 0H1280V59C1280 59 570 464 0 384C0 234.039 0 0 0 0Z"
-						fill="#2C6839"
-					/>
-					<path
-						d="M0 832H675.5C399.73 774.766 30.365 676.747 0 384C0 558.955 0 832 0 832Z"
-						fill="#408B51"
+						d="M 0 45 L 0 0 L 1281.5 -0.5 v 49.5 C 606 -51 466 196 0 45 Z"
+						fill="#5E99F7"
 					/>
 				</svg>
 			</div>
-			<section className="text-secondary-100">
-				{/* <div className="mx-auto mb-6 w-fit rounded-3xl bg-primary-400 px-10 py-5">
-					<p className="text-center font-shrikhand text-3xl">Welcome back!</p>
-				</div> */}
-				<h1 className="h1 with-shadow pb-5 text-center">So, how are you?</h1>
-				<LoginButton />
-				<FilbisAvatar className="center m-auto w-[60%] max-w-lg mt-4" />
-			</section>
+			<div className="flex items-center justify-center min-h-[80vh]">
+				<div className="relative text-secondary-100 w-full text-center">
+					{/* <div className="mx-auto mb-6 w-fit rounded-3xl bg-primary-400 px-10 py-5">
+						<p className="text-center font-shrikhand text-3xl">Welcome back!</p>
+					</div> */}
+					<h1 className="h1 with-shadow pb-5 lg:text-8xl md:text-6xl sm:text-4xl xs:text-4xl">So, how are you?</h1>
+					<LoginButton />
+					<FilbisAvatar className="center m-auto h-[30vh] mt-4" />
+				</div>
+			</div>
 		</>
 	)
 }

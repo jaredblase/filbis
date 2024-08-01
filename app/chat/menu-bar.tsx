@@ -8,16 +8,22 @@ import {
 } from '@/components/ui/popover'
 import { useHeaderMenu } from '@/lib/user-header-menu'
 import {
+	IconContext,
 	SpeakerX,
 	SpeakerHigh,
 	ArrowCounterClockwise,
-} from '@phosphor-icons/react/dist/ssr/index'
+	ChatCircleSlash,
+	ChatCircle,
+	SignOut,
+	MicrophoneSlash,
+	Microphone,
+} from '@phosphor-icons/react'
 import { signOut } from 'next-auth/react'
 import { createPortal } from 'react-dom'
 import { MobileMenuBar } from './mobile-menu-bar'
 import wretch from 'wretch'
 import { useMemo } from 'react'
-import { useChatActions, useIsMuted } from './store'
+import { useChatActions, useIsMuted, useIsVoiceMuted } from './store'
 
 type MenuBarProps = {
 	src?: string | null
@@ -32,28 +38,40 @@ function renewSessionAndReload() {
 
 export function MenuBar({ src }: MenuBarProps) {
 	const headerMenu = useHeaderMenu()
-	const { toggleMute } = useChatActions()
+	const { toggleMute, toggleVoiceMute } = useChatActions()
 	const isMuted = useIsMuted()
+	const isVoiceMuted = useIsVoiceMuted()
 
 	const menuButtons = useMemo(
 		() => (
 			<>
-				<button title="Toggle mute">
-					{isMuted ? (
-						<SpeakerX className="icon" onClick={toggleMute} />
-					) : (
-						<SpeakerHigh className="icon" onClick={toggleMute} />
-					)}
-				</button>
-				<button title="Restart session">
-					<ArrowCounterClockwise
-						className="icon"
-						onClick={renewSessionAndReload}
-					/>
-				</button>
+				<IconContext.Provider value={{ size: 36 }} >
+					<button title="Toggle mute">
+						{isMuted ? (
+							<SpeakerX className="icon" onClick={toggleMute} />
+						) : (
+							<SpeakerHigh className="icon" onClick={toggleMute} />
+						)}
+					</button>
+
+					<button title="Toggle microphone">
+						{isVoiceMuted ? (
+							<MicrophoneSlash className="icon" onClick={toggleVoiceMute} />
+						) : (
+							<Microphone className="icon" onClick={toggleVoiceMute} />
+						)}
+					</button>
+
+					<button title="Restart session">
+						<ArrowCounterClockwise
+							className="icon"
+							onClick={renewSessionAndReload}
+						/>
+					</button>
+				</IconContext.Provider>
 			</>
 		),
-		[isMuted]
+		[isVoiceMuted, isMuted]
 	)
 
 	if (!headerMenu) return <></>
@@ -67,18 +85,20 @@ export function MenuBar({ src }: MenuBarProps) {
 				{menuButtons}
 				<Popover>
 					<PopoverTrigger>
-						<Avatar className="cursor-pointer transition-transform hover:scale-105 active:scale-100">
+						<Avatar className="cursor-pointer transition-transform hover:scale-110 active:scale-100 border-2 border-white">
 							<AvatarImage src={src ?? undefined} />
 							<AvatarFallback>Profile Picture</AvatarFallback>
 						</Avatar>
 					</PopoverTrigger>
 					<PopoverContent hideWhenDetached>
-						<button
-							className="btn btn-primary w-full"
-							onClick={() => signOut({ callbackUrl: '/' })}
-						>
-							Logout
-						</button>
+						<IconContext.Provider value={{ size: 36 }} >
+							<button
+								//className = "bg-[#e26b3f] hover:bg-[#cf4412] text-white py-2 px-4 border-b-4 border-white hover:border-white rounded-full btn w-[10vw]"
+								//className="btn btn-primary w-full"
+							>
+								<SignOut className="icon" onClick={() => signOut({ callbackUrl: '/' })} />
+							</button>
+						</IconContext.Provider>
 					</PopoverContent>
 				</Popover>
 			</menu>

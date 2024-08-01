@@ -68,7 +68,6 @@ export async function POST(req: NextRequest) {
 			text
 		)
 		const data = extractPromptAndChoices(res)
-		console.log(data)
 
 		if (!data.prompt) {
 			throw Error(`[${session.user.email}] Empty prompt for payload: ${text}`)
